@@ -1,0 +1,272 @@
+
+
+4.1
+
+
+Declare
+salary number;
+d_code number:=&a;
+
+procedure Maxsal(x IN OUT staff_master.dept_code%type) IS
+
+CURSOR Pawar IS SELECT max(staff_sal) from staff_master where dept_code=x;
+BEGIN
+	OPEN Pawar;
+	Loop
+	fetch Pawar into salary;
+	exit when Pawar%NOTFOUND;
+	dbms_output.put_line('MAXSAL: ' ||salary);
+	end loop;
+	close Pawar;
+end;
+begin
+	Maxsal(d_code);
+end;
+/
+
+
+
+4.2
+
+
+declare 
+dob date:=to_date('&dob','dd/mm/yyyy');
+age number;
+mon number;
+FUNCTION calAge(x date)
+return number
+IS
+begin
+ age:=months_between(sysdate,x)/12;
+ mon:=MOD(months_between(sysdate,x),12);
+return age;
+end;
+begin
+age:=calAge(dob);
+dbms_output.put_line('AGE is  '|| ROUND(age,0) ||' years ' || ROUND(mon,0) || '  months'); 
+end;
+/
+
+
+4.3
+
+    DECLARE
+    StaffCode staff_master.staff_code%type:=&a;
+    StaffName staff_master.staff_name%type;
+    procedure UP(x IN staff_master.staff_code%type)
+    IS
+    CURSOR bha_bhupesh IS SELECT staff_code,upper(staff_name) from staff_master
+ where staff_code=StaffCode;
+    BEGIN
+    OPEN bha_bhupesh;
+   LOOP
+   FETCH bha_bhupesh into StaffCode, StaffName;
+  EXIT WHEN bha_bhupesh%NOTFOUND;
+  update staff_master set staff_name=StaffName where staff_code=StaffCode;
+   END LOOP;
+   CLOSE bha_bhupesh;
+   END;
+   BEGIN
+  UP(StaffCode);
+  END;
+/
+
+
+
+
+4.5
+
+
+
+
+DECLARE
+DA number;
+years number;
+HRA number;
+TA number;
+total number;
+SA number;
+xyz number;
+salary staff_master.staff_sal%type;
+s_code staff_master.staff_code%type :=&Scode;
+h_date staff_master.hiredate%type;
+Function CTC(x number)
+RETURN number
+IS
+CURSOR Deepesh IS SELECT staff_code,staff_sal,hiredate from staff_master where staff_code=s_code;
+BEGIN
+OPEN Deepesh;
+LOOP
+FETCH Deepesh INTO s_code, salary,h_date;
+EXIT WHEN Deepesh%NOTFOUND;
+DA :=0.15*salary;
+HRA :=0.2*salary;
+TA :=0.08*salary;
+years := months_between(sysdate,h_date)/12;
+IF years<1 THEN
+SA:=0;
+ELSIF years>=1 AND years<2 THEN
+SA:= 0.1*salary;
+ELSIF years>=2 AND years<4 THEN
+SA:= 0.2*salary;
+ELSE
+SA:= 0.3*salary;
+END IF;
+total :=DA+HRA+TA+SA+salary;
+RETURN total;
+END LOOP;
+CLOSE Deepesh;
+END;
+BEGIN
+xyz:= CTC(s_code);
+dbms_output.put_line('S Code:' ||s_code);
+dbms_output.put_line('CTC:' ||xyz);
+END;
+/
+
+
+
+
+4.7
+
+
+Declare
+exp number;
+total number;
+h_date staff_master.hiredate%type;
+salary staff_master.staff_sal%type;
+s_code staff_master.staff_code%type:=&a;
+Procedure chutki(s_code IN number)
+IS
+CURSOR CR IS SELECT staff_sal,hiredate from staff_master where staff_code=s_code;
+BEGIN
+OPEN CR;
+LOOP
+FETCH CR into salary,h_date;
+EXIT WHEN CR%NOTFOUND;
+exp:=months_between(sysdate,h_date)/12;
+IF exp<2
+THEN
+total:=salary;
+ELSIF exp>2 AND exp<5
+THEN
+total:=1.2*salary;
+ELSE
+total:=1.25*salary;
+END IF;
+UPDATE staff_master set staff_sal=total where staff_code=s_code;
+END LOOP;
+CLOSE CR;
+END;
+BEGIN
+execute immediate 'CREATE TABLE IF NOT EXISTS staff_master_back AS select * from staff_master where 1=3';
+insert into staff_master_back values(s_code,'','','','','','',salary,'');
+chutki(s_code);
+END;
+/
+
+  4.8
+
+
+
+
+ DECLARE
+ b_code book_transactions.book_code%type:=&a;
+ std_code student_master.student_code%type;
+ st_code staff_master.staff_code%type;
+ std_name student_master.student_name%type;
+ st_name staff_master.staff_name%type;
+ i_date book_transactions.book_issue_date%type;
+ r_date book_transactions.book_expected_return_date%type;
+ ar_date book_transactions.book_actual_return_date%type;
+ PROCEDURE book_T(b_code IN OUT book_transactions.book_code%type) IS
+ CURSOR majduri IS
+ SELECT bt.staff_code,bt.student_code,sm.student_name,
+ bt.book_issue_date,bt.book_expected_return_date
+ FROM book_transactions bt JOIN (student_master sm JOIN staff_master s  ON sm.dept_code=s.dept_code)
+ ON bt.student_code=sm.student_code
+  WHERE
+ bt.book_code=b_code and bt.book_actual_return_date IS NULL
+ GROUP BY bt.staff_code,bt.student_code,student_name,book_issue_date,book_expected_return_date;
+ BEGIN
+ OPEN majduri;
+ LOOP
+ FETCH majduri INTO st_code, std_code,std_name,i_date,r_date;
+ exit when majduri%NOTFOUND;
+ dbms_output.put_line('Student/Staff Code:' ||std_code||st_code);
+ dbms_output.put_line('Student/Staff Name:' ||std_name||st_name);
+ dbms_output.put_line('Issue Date:' ||i_date);
+ dbms_output.put_line('Expected Return Date:' ||r_date);
+ END LOOP;
+ CLOSE majduri;
+ END;
+ BEGIN
+ book_T(b_code);
+ END;
+/
+
+
+
+4.9
+
+
+
+  1  CREATE or REPLACE PACKAGE pack1 AS
+  2  PROCEDURE Staff(exp number,h1_date date);
+  3  FUNCTION cal_exp(h_date date)
+  4  RETURN number;
+  5* END pack1;
+SQL> /
+
+Package created.
+
+
+
+  1  CREATE or REPLACE PACKAGE BODY pack1 AS
+  2  PROCEDURE Staff(exp IN number,h1_date date) IS
+  3  s_code staff_master.staff_code%type;
+  4  y number;
+  5  BEGIN
+  6  SELECT staff_code into s_code from staff_master where hiredate=h1_date;
+  7  y := exp*3000;
+  8  dbms_output.put_line('S Code:' ||s_code);
+  9  dbms_output.put_line('DOJ:' ||h1_date);
+ 10  dbms_output.put_line('Exp:' ||exp);
+ 11  dbms_output.put_line('ADD Allow:' ||y);
+ 12  END Staff;
+ 13  FUNCTION cal_exp(h_date date)
+ 14  return number
+ 15  IS
+ 16  exp number;
+ 17  BEGIN
+ 18   exp:=months_between(sysdate,h_date)/12;
+ 19  return exp;
+ 20  END cal_exp;
+ 21* END pack1;
+SQL> /
+
+Package body created.
+
+
+
+
+
+
+  1   DECLARE
+  2   hr_date staff_master.hiredate%type;
+  3   xyz number;
+  4   BEGIN
+  5   hr_date:= to_date('&a','dd/mm/yyyy');
+  6   xyz :=pack1.cal_exp(hr_date);
+  7   pack1.Staff(xyz,hr_date);
+  8*  END;
+SQL> /
+Enter value for a: 15/01/2003
+old   5:  hr_date:= to_date('&a','dd/mm/yyyy');
+new   5:  hr_date:= to_date('15/01/2003','dd/mm/yyyy');
+S Code:100001
+DOJ:15-JAN-03
+Exp:15.741211201961369972122660294703305456
+ADD Allow:47223.633605884109916367980884109916368
+
+PL/SQL procedure successfully completed.

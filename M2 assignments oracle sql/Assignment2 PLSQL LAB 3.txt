@@ -1,0 +1,263 @@
+Q 4.1)
+
+
+  1  DECLARE
+  2      m_sal STAFF_MASTER.STAFF_SAL%TYPE;
+  3      CURSOR mxSal_cuR(d_code NUMBER:=&EnterDeptCode)  IS
+  4          select max(STAFF_SAL) from STAFF_MASTER WHERE DEPT_CODE=d_code;
+  5  BEGIN
+  6      IF NOT mxSal_cur%ISOPEN THEN
+  7          OPEN mxSal_cur;
+  8      END IF;
+  9      LOOP
+ 10          FETCH mxSal_cur INTO m_sal;
+ 11          IF mxSal_cur%ROWCOUNT <1 THEN
+ 12              RAISE NO_DATA_FOUND;
+ 13          END IF;
+ 14          EXIT WHEN mxSal_cur%NOTFOUND;
+ 15          DBMS_OUTPUT.PUT_LINE(m_sal);
+ 16      END LOOP;
+ 17      CLOSE mxSal_cur;
+ 18      EXCEPTION
+ 19      WHEN NO_DATA_FOUND THEN
+ 20              dbms_output.put_line('NO SUCH DeptNo');
+ 21* END;
+ 22  /
+Enter value for enterdeptcode: 10
+old   3:     CURSOR mxSal_cuR(d_code NUMBER:=&EnterDeptCode)  IS
+new   3:     CURSOR mxSal_cuR(d_code NUMBER:=10)  IS
+32000
+
+PL/SQL procedure successfully completed.
+
+
+Q 4.2)
+  1  DECLARE
+  2    v_dob  DATE:= to_date('&v_dob', 'MM/DD/YYYY');
+  3    v_your_age  NUMBER(3, 1);
+  4     FUNCTION calc(v_dob DATE) RETURN NUMBER IS v_your_age number;
+  5  BEGIN
+  6    v_your_age := TRUNC(MONTHS_BETWEEN(SYSDATE, v_dob))/12;
+  7     return v_your_age;
+  8  END;
+  9  BEGIN
+ 10  v_your_age:=calc(v_dob);
+ 11  DBMS_OUTPUT.PUT_LINE (v_your_age);
+ 12* END;
+SQL> /
+Enter value for v_dob: 10/07/1996
+old   2:   v_dob  DATE:= to_date('&v_dob', 'MM/DD/YYYY');
+new   2:   v_dob  DATE:= to_date('10/07/1996', 'MM/DD/YYYY');
+22
+
+PL/SQL procedure successfully completed.
+
+
+Q 4.3)
+  1  DECLARE
+  2  st_name Varchar2(50);
+  3  st_code Number(8);
+  4  CURSOR s_staffs IS SELECT UPPER(staff_name) FROM staff_master where staff_code=st_code;
+  5  BEGIN
+  6  st_code:='&code';
+  7  open s_staffs;
+  8  LOOP
+  9  FETCH s_staffs INTO st_name;
+ 10  EXIT WHEN s_staffs%NOTFOUND;
+ 11  dbms_output.Put_line('NAME OF STAFF='||st_name);
+ 12  END LOOP;
+ 13  CLOSE s_staffs;
+ 14* END;
+SQL> /
+Enter value for code: 100001
+old   6: st_code:='&code';
+new   6: st_code:='100001';
+NAME OF STAFF=ARVIND
+
+
+Q 4.5)
+ECLARE
+        v_staffcode staff_Master.Staff_Code%TYPE:=&cd;
+        DA NUMBER(10,3);
+        HRA NUMBER(10,3);
+        TA NUMBER(10,3);
+        SA NUMBER(10,3);
+        hDate DATE;
+        yrs NUMBER(4,2);
+        FUNCTION Cal_Sal(staffcode staff_Master.Staff_Code%TYPE)
+        RETURN staff_Master.Staff_sal%TYPE IS sal staff_Master.Staff_sal%TYPE;
+        BEGIN
+               SELECT staff_sal,Hiredate INTO sal,hDate FROM staff_Master WHERE staffcode=staff_Master.staff_code;
+               DA:=(0.15*sal);
+               HRA:=(0.2*sal);
+               TA:=0.08*sal;
+               yrs:=TRUNC(MONTHS_BETWEEN(SYSDATE,hDate))/12;
+               IF yrs>4 THEN
+                       SA:=0.3*sal;
+               ELSIF yrs>=2 THEN
+                       SA:=0.2*sal;
+               ELSIF yrs>=1 THEN
+                       SA:=0.1*sal;
+               ELSE
+                      SA:=0;
+               END IF;
+               sal:=sal+DA+HRA+TA+SA;
+               RETURN sal;
+       END;
+    BEGIN
+       DBMS_OUTPUT.PUT_LINE(Cal_Sal(v_staffcode));
+   END;
+SQL> /
+Enter value for cd: 100006
+old   2:     v_staffcode staff_Master.Staff_Code%TYPE:=&cd;
+new   2:     v_staffcode staff_Master.Staff_Code%TYPE:=100006;
+72660
+
+
+
+
+Q 4.6)
+
+Wrote file afiedt.buf
+
+  1  create or replace procedure staff_info
+  2  as
+  3      s_name staff_master.staff_name%type;
+  4      d_name department_master.dept_name%type;
+  5      d_des designation_master.design_name%type;
+  6      s_sal staff_master.staff_sal%type;
+  7      stat VARCHAR2(10);
+  8  CURSOR STAFF IS
+  9      select s.staff_name,d.dept_name,ds.design_name,s.staff_sal,
+ 10      CASE
+ 11          WHEN S.STAFF_SAL>(SELECT AVG(STAFF_SAL) FROM STAFF_master) THEN 'GR
+EATER'
+ 12          WHEN S.STAFF_SAL<(SELECT AVG(STAFF_SAL) FROM STAFF_master) THEN 'LE
+SSER'
+ 13          ELSE 'EQUAL'
+ 14      END
+ 15      FROM STAFF_master S JOIN DEPARTMENT_master D ON S.DEPT_CODE=D.DEPT_CODE
+
+ 16      JOIN DESIGNATION_master DS ON S.DESIGN_CODE=DS.DESIGN_CODE;
+ 17  BEGIN
+ 18      IF NOT STAFF%ISOPEN THEN
+ 19          OPEN STAFF;
+ 20      END IF;
+ 21      LOOP
+ 22          FETCH STAFF INTO s_name, d_name, d_des, s_sal, stat;
+ 23          exit when staff%notfound;
+ 24          dbms_output.put_line(s_name || ' ' || d_name || ' ' || d_des || ' '
+ || s_sal || ' ' || stat);
+ 25      end loop;
+ 26      close STAFF;
+ 27     EXCEPTION
+ 28             WHEN others then
+ 29                     DBMS_OUTPUT.PUT_LINE('sorry no records found!!');
+ 30* end;
+ 31  /
+
+Procedure created.
+
+SQL> EXECUTE STAFF_INFO;
+Rahul Electricals Professor 22000 LESSER
+Raviraj Mechanics Professor 18000 LESSER
+Anil Electricals Professor 20000 LESSER
+Mohan Computer Science Professor 24000 LESSER
+Shyam Electricals Professor 20000 LESSER
+Arvind Electronics Professor 17000 LESSER
+Ram Electronics Reader 32000 GREATER
+Smith Electricals Reader 62000 GREATER
+Allen Electronics Reader 42000 GREATER
+John Computer Science Director 32000 GREATER
+
+PL/SQL procedure successfully completed.
+
+Q 4.7)
+
+  1   DECLARE
+  2      v_staffcode staff_Master.Staff_Code%TYPE:=&cd;
+  3      sal NUMBER(10,2);
+  4      nsal NUMBER(10,2);
+  5      hDate DATE;
+  6      yrs NUMBER(4,2);
+  7      PROCEDURE Upd_Sal(staffcode staff_Master.Staff_Code%TYPE) IS
+  8      BEGIN
+  9              SELECT staff_sal,Hiredate INTO sal,hDate FROM staff_Master WHERE staff_Master.staff_code=staffcode;
+ 10              yrs:=TRUNC(MONTHS_BETWEEN(SYSDATE,hDate))/12;
+ 11              IF yrs>5 THEN
+ 12                      nsal:=sal+0.25*sal;
+ 13              ELSIF yrs>2 THEN
+ 14                      nsal:=sal+0.2*sal;
+ 15              ELSE
+ 16                      nsal:=sal;
+ 17              END IF;
+ 18         UPDATE Staff_Master
+ 19             SET Staff_sal=nsal WHERE staff_Master.Staff_Code=staffcode;
+ 20         UPDATE Staff_Master_Back
+ 21             SET Staff_sal=sal WHERE Staff_Master_Back.Staff_Code=staffcode;
+ 22      EXCEPTION
+ 23     WHEN no_data_found THEN
+ 24             DBMS_OUTPUT.PUT_LINE('NO DATA FOUND');
+ 25     WHEN OTHERS THEN
+ 26             DBMS_OUTPUT.PUT_LINE('Error');
+ 27      END;
+ 28   BEGIN
+ 29      Upd_Sal(v_staffcode);
+ 30*  END;
+SQL> /
+Enter value for cd: 100006
+old   2:     v_staffcode staff_Master.Staff_Code%TYPE:=&cd;
+new   2:     v_staffcode staff_Master.Staff_Code%TYPE:=100006;
+
+PL/SQL procedure successfully completed.
+
+
+
+Q-4.8)
+
+  1     DECLARE
+  2     v_book_code_user book_transactions.book_code%TYPE :=&book_code;
+  3     v_student_code book_transactions.student_code%TYPE := '';
+  4     v_staff_code book_transactions.staff_code%TYPE  := '';
+  5     v_book_issue_date book_transactions.book_issue_date%TYPE;
+  6     v_book_expected_return_date book_transactions.book_expected_return_date%TYPE;
+  7     v_student_name student_master.student_name%TYPE  := '';
+  8     v_staff_name staff_master.staff_name%TYPE := '';
+  9     CURSOR c_book IS
+ 10     SELECT student_name,book_transactions.student_code,book_transactions.staff_code,book_issue_date,
+ 11     book_expected_return_date from book_transactions
+ 12     JOIN (student_master JOIN staff_master ON student_master.dept_code=staff_master.dept_code)
+ 13     ON book_transactions.student_code=student_master.student_code WHERE book_code=v_book_code_user
+ 14     AND book_actual_return_date IS NULL
+ 15     GROUP BY student_name,book_transactions.student_code,book_transactions.staff_code,book_issue_date,
+ 16     book_expected_return_date;
+ 17     PROCEDURE book(v_book_code_user IN book_transactions.book_code%TYPE) IS
+ 18     BEGIN
+ 19     OPEN c_book;
+ 20     LOOP
+ 21     FETCH c_book INTO v_student_name,v_student_code,v_staff_code,v_book_issue_date,v_book_expected_return_date;
+ 22        EXIT WHEN c_book%notfound;
+ 23     dbms_output.put_line('Student/Staff Code: '||v_student_code||v_staff_code);
+ 24     dbms_output.put_line('Student/Staff Name: '||v_student_name||v_staff_name);
+ 25     dbms_output.put_line('Book Issue Date: '||v_book_issue_date);
+ 26     dbms_output.put_line('Book Expected return Date: '||v_book_expected_return_date);
+ 27     END LOOP;
+ 28     CLOSE c_book;
+ 29     END;
+ 30     BEGIN
+ 31     book(v_book_code_user);
+ 32*   END;
+SQL> /
+Enter value for book_code: 10000006
+old   2:    v_book_code_user book_transactions.book_code%TYPE :=&book_code;
+new   2:    v_book_code_user book_transactions.book_code%TYPE :=10000006;
+Student/Staff Code: 1012
+Student/Staff Name: Rajesh
+Book Issue Date: 02-FEB-11
+Book Expected return Date: 09-FEB-11
+
+PL/SQL procedure successfully completed.
+
+
+Q 4.9)
+

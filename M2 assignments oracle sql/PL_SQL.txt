@@ -1,0 +1,483 @@
+SQL> ed
+Wrote file afiedt.buf
+
+  1  DECLARE
+  2  V_Sample1 NUMBER(2);
+  3  V_Sample2 CONSTANT NUMBER(2) ;
+  4  V_Sample3 NUMBER(2) NOT NULL ;
+  5  V_Sample4 NUMBER(2) := 50;
+  6  V_Sample5 NUMBER(2) DEFAULT 25;
+  7  BEGIN
+  8  DBMS_OUTPUT.PUT_LINE("Hello");
+  9* END;
+SQL> /
+V_Sample2 CONSTANT NUMBER(2) ;
+*
+ERROR at line 3:
+ORA-06550: line 3, column 1: 
+PLS-00322: declaration of a constant 'V_SAMPLE2' must contain an initialization 
+assignment 
+ORA-06550: line 3, column 11: 
+PL/SQL: Item ignored 
+ORA-06550: line 4, column 11: 
+PLS-00218: a variable declared NOT NULL must have an initialization assignment 
+ORA-06550: line 8, column 23: 
+PLS-00201: identifier 'Hello' must be declared 
+ORA-06550: line 8, column 1: 
+PL/SQL: Statement ignored 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  <<outer_block>>
+  2  DECLARE --outer block
+  3  var_num1 NUMBER := 5;
+  4  BEGIN
+  5  <<inner_bloack>>
+  6  DECLARE --inner block
+  7  var_num1 NUMBER := 10;
+  8  BEGIN
+  9  DBMS_OUTPUT.PUT_LINE('Value for outerblock var_num1:' ||outer_block.var_num1);
+ 10  --Can outer block variable (var_num1) be printed here.If Yes,Print the same.
+ 11  END;
+ 12  --Can inner block variable(var_num1) can't be printed here.
+ 13* END;
+SQL> /
+Value for outerblock var_num1:5                                                 
+
+PL/SQL procedure successfully completed.
+
+  
+SQL>
+
+  1  DECLARE
+  2     v_staff_code staff_Master.Staff_Code%type;
+  3     v_staff_name staff_Master.Staff_Name%type;
+  4     v_staff_sal staff_Master.Staff_sal%type;
+  5     v_dept_code staff_Master.Dept_Code%type:=&depcode;
+  6     CURSOR c_staff IS
+  7             SELECT Staff_Code,Staff_Name,Staff_sal FROM staff_Master
+  8                     WHERE staff_Master.Dept_Code=v_dept_code;
+  9  BEGIN
+ 10     OPEN c_staff;
+ 11     LOOP
+ 12     FETCH c_staff INTO v_staff_code,v_staff_name,v_staff_sal;
+ 13             EXIT WHEN c_staff%notfound;
+ 14             DBMS_OUTPUT.PUT_LINE('Staff Code: '||v_staff_code);
+ 15             DBMS_OUTPUT.PUT_LINE('Name: '||v_staff_name);
+ 16             DBMS_OUTPUT.PUT_LINE('Sallary: '||v_staff_sal);
+ 17     END LOOP;
+ 18     CLOSE c_staff;
+ 19* END;
+SQL> /
+Enter value for depcode: 10
+old   5:        v_dept_code staff_Master.Dept_Code%type:=&depcode;
+new   5:        v_dept_code staff_Master.Dept_Code%type:=10;
+Staff Code: 100003
+Name: Mohan
+Sallary: 24000
+Staff Code: 100005
+Name: John
+Sallary: 32000
+
+SQL>
+
+  1     DECLARE
+  2         v_staff_code staff_Master.Staff_Code%type;
+  3         v_staff_sal staff_Master.Staff_sal%type;
+  4         v_dept_code staff_Master.Dept_Code%type:=&depcode;
+  5         v_updated_sal NUMBER;
+  6         CURSOR c_staff IS
+  7                 SELECT Staff_Code,Staff_sal FROM staff_Master
+  8                         WHERE staff_Master.Dept_Code=v_dept_code;
+  9      BEGIN
+ 10        OPEN c_staff;
+ 11        LOOP
+ 12        FETCH c_staff INTO v_staff_code,v_staff_sal;
+ 13                EXIT WHEN c_staff%notfound;
+ 14           v_updated_sal:=0.3*v_staff_sal;
+ 15           IF v_updated_sal>5000
+ 16           THEN
+ 17           v_updated_sal:=5000;
+ 18           END IF;
+ 19           v_updated_sal:=v_updated_sal+v_staff_sal;
+ 20           UPDATE staff_Master
+ 21             SET Staff_sal=v_updated_sal
+ 22           WHERE Staff_Code=v_staff_code;
+ 23        END LOOP;
+ 24        CLOSE c_staff;
+ 25*   END;
+SQL> /
+Enter value for depcode: 10
+old   4:        v_dept_code staff_Master.Dept_Code%type:=&depcode;
+new   4:        v_dept_code staff_Master.Dept_Code%type:=10;
+
+PL/SQL procedure successfully completed.
+
+SQL> SELECT Staff_Code,Staff_sal FROM staff_Master WHERE Dept_Code=10;
+
+STAFF_CODE  STAFF_SAL
+---------- ----------
+    100003      29000
+    100005      37000
+
+
+  1     DECLARE
+  2             v_student_code Student_Master.Student_Code%type;
+  3             v_student_name Student_Master.Student_Name%type;
+  4             v_subject1 Student_Marks.Subject1%type;
+  5        v_subject2 Student_Marks.Subject2%type;
+  6        v_subject3 Student_Marks.Subject3%type;
+  7        v_total NUMBER;
+  8        v_Percentage NUMBER(5,2);
+  9        v_dept_code staff_Master.Dept_Code%type:=&depcode;
+ 10             CURSOR s_master IS
+ 11                    SELECT Student_Master.Student_Code,Student_Name,Subject1,Subject2,Subject3 FROM Student_Master
+ 12                     JOIN Student_Marks
+ 13                             ON Student_Master.Dept_Code=v_dept_code AND
+ 14                             Student_Master.Student_Code=Student_Marks.Student_Code;
+ 15       v_num NUMBER :=0;
+ 16          BEGIN
+ 17           OPEN s_master;
+ 18           LOOP
+ 19           FETCH s_master INTO v_student_code,v_student_name,v_subject1,v_subject2,v_subject3;
+ 20                   EXIT WHEN s_master%notfound;
+ 21         v_total:=v_subject1+v_subject2+v_subject3;
+ 22              v_Percentage:=v_total/3;
+ 23         IF v_num=0
+ 24         THEN
+ 25         DBMS_OUTPUT.PUT_LINE('STUDENT_CODE   '||'STUDENT_NAME  '||
+ 26             'SUBJECT 1  '||'SUBJECT 2  '||'SUBJECT 3  '||'Total  '||'Percentage     '||'GRADE  ');
+ 27              v_num:=1;
+ 28         END IF;
+ 29         DBMS_OUTPUT.PUT(v_student_code||'              '||v_student_name||'          '||
+ 30             v_subject1||'        '||v_subject2||'          '||v_subject3||'       '||v_total||'     '||v_Percentage||'          ' );
+ 31         IF v_subject1>=60 AND v_subject2>=60 AND v_subject3>=60
+ 32         THEN
+ 33             IF v_Percentage>=80
+ 34             THEN
+ 35             DBMS_OUTPUT.PUT_LINE('A');
+ 36             ELSIF v_Percentage>=70 AND v_Percentage<80
+ 37             THEN
+ 38             DBMS_OUTPUT.PUT_LINE('B');
+ 39             ELSIF v_Percentage>=60 AND v_Percentage<70
+ 40             THEN
+ 41             DBMS_OUTPUT.PUT_LINE('C');
+ 42             ELSE
+ 43             DBMS_OUTPUT.PUT_LINE('D');
+ 44             END IF;
+ 45          ELSE
+ 46          DBMS_OUTPUT.PUT_LINE('F');
+ 47          END IF;
+ 48           END LOOP;
+ 49           CLOSE s_master;
+ 50*     END;
+SQL> /
+Enter value for depcode: 10
+old   9:           v_dept_code staff_Master.Dept_Code%type:=&depcode;
+new   9:           v_dept_code staff_Master.Dept_Code%type:=10;
+STUDENT_CODE   STUDENT_NAME  SUBJECT 1  SUBJECT 2  SUBJECT 3  Total  Percentage     GRADE
+1001              Amit          55        45          78       178        59.33       F
+1002              Ravi          66        74          88       228        76       B
+1008              Dev          72        55          55       182        60.67       F
+1014              Sunil          73        74          65       212        70.67       B
+1020              Amrit          45        55          65       165        55       F
+1001              Amit          68        44          92       204        68       F
+1002              Ravi          89        96          78       263        87.67       A
+1008              Dev          69        44          52       165        55       F
+1014              Sunil          65        64          90       219        73       B
+1020              Amrit          55        45          78       178        59.33       F
+
+PL/SQL procedure successfully completed.
+
+SQL>
+
+  1   DECLARE
+  2         /
+  3         v_staff_code staff_Master.Staff_Code%type;
+  4         v_staff_name staff_Master.Staff_Name%type;
+  5         v_staff_sal staff_Master.Staff_sal%type;
+  6         v_dept_code staff_Master.Dept_Code%type:=&depcode;
+  7         CURSOR c_staff IS
+  8                 SELECT Staff_Code,Staff_Name,Staff_sal FROM staff_Master
+  9                         WHERE staff_Master.Dept_Code=v_dept_code;
+ 10      BEGIN
+ 11        OPEN c_staff;
+ 12        IF v_dept_code<0 THEN
+ 13     RAISE e_dep_code;
+ 14        END IF;
+ 15        LOOP
+ 16        FETCH c_staff INTO v_staff_code,v_staff_name,v_staff_sal;
+ 17                EXIT WHEN c_staff%notfound;
+ 18                DBMS_OUTPUT.PUT_LINE('Staff Code: '||v_staff_code);
+ 19                DBMS_OUTPUT.PUT_LINE('Name: '||v_staff_name);
+ 20                DBMS_OUTPUT.PUT_LINE('Sallary: '||v_staff_sal);
+ 21        END LOOP;
+ 22        CLOSE c_staff;
+ 23      EXCEPTION
+ 24     WHEN e_dep_code THEN
+ 25             DBMS_OUTPUT.PUT_LINE('Invalid Input');
+ 26     WHEN Others THEN
+ 27             DBMS_OUTPUT.PUT_LINE('Error');
+ 28*   END;
+SQL> /
+Enter value for depcode: -10
+old   6:        v_dept_code staff_Master.Dept_Code%type:=&depcode;
+new   6:        v_dept_code staff_Master.Dept_Code%type:=-10;
+Invalid Input
+
+PL/SQL procedure successfully completed.
+
+
+
+
+  1         DECLARE
+  2             e_dep_code EXCEPTION;
+  3        v_staff_code staff_Master.Staff_Code%type;
+  4             v_staff_sal staff_Master.Staff_sal%type;
+  5             v_dept_code staff_Master.Dept_Code%type:=&depcode;
+  6             v_updated_sal NUMBER;
+  7             CURSOR c_staff IS
+  8                     SELECT Staff_Code,Staff_sal FROM staff_Master
+  9                             WHERE staff_Master.Dept_Code=v_dept_code;
+ 10          BEGIN
+ 11           OPEN c_staff;
+ 12     IF v_dept_code<0 THEN
+ 13          RAISE e_dep_code;
+ 14          END IF;
+ 15           LOOP
+ 16           FETCH c_staff INTO v_staff_code,v_staff_sal;
+ 17                   EXIT WHEN c_staff%notfound;
+ 18              v_updated_sal:=0.3*v_staff_sal;
+ 19              IF v_updated_sal>5000
+ 20              THEN
+ 21              v_updated_sal:=5000;
+ 22              END IF;
+ 23              v_updated_sal:=v_updated_sal+v_staff_sal;
+ 24              UPDATE staff_Master
+ 25                SET Staff_sal=v_updated_sal
+ 26              WHERE Staff_Code=v_staff_code;
+ 27           END LOOP;
+ 28           CLOSE c_staff;
+ 29     EXCEPTION
+ 30        WHEN e_dep_code THEN
+ 31                DBMS_OUTPUT.PUT_LINE('Invalid Input');
+ 32        WHEN Others THEN
+ 33                DBMS_OUTPUT.PUT_LINE('Error');
+ 34*     END;
+SQL> /
+Enter value for depcode: -9
+old   5:            v_dept_code staff_Master.Dept_Code%type:=&depcode;
+new   5:            v_dept_code staff_Master.Dept_Code%type:=-9;
+Invalid Input
+
+PL/SQL procedure successfully completed.
+
+
+
+3.6)
+ 
+  1   DECLARE
+  2     v_comm Emp.Comm%TYPE;
+  3     e_cmm EXCEPTION;
+  4   BEGIN
+  5     SELECT Comm INTO v_comm FROM Emp WHERE Empno=7369;
+  6     IF v_comm IS NULL THEN
+  7     RAISE e_cmm;
+  8     ELSE
+  9     DBMS_OUTPUT.PUT_LINE('Commission='||v_comm);
+ 10     END IF;
+ 11   EXCEPTION
+ 12     WHEN e_cmm
+ 13     THEN
+ 14     DBMS_OUTPUT.PUT_LINE('NO COMMISSION FOUND');
+ 15     WHEN OTHERS THEN
+ 16     DBMS_OUTPUT.PUT_LINE('Error');
+ 17*  END;
+SQL> /
+NO COMMISSION FOUND
+
+PL/SQL procedure successfully completed.
+
+
+SQL> DROP TABLE PT;
+
+Table dropped.
+
+SQL>
+PL/SQL procedure successfully completed.
+
+4.5
+
+     DECLARE
+        v_staffcode staff_Master.Staff_Code%TYPE:=&cd;
+        DA NUMBER(10,3);
+        HRA NUMBER(10,3);
+        TA NUMBER(10,3);
+        SA NUMBER(10,3);
+        hDate DATE;
+        yrs NUMBER(4,2);
+        FUNCTION Cal_Sal(staffcode staff_Master.Staff_Code%TYPE)
+        RETURN staff_Master.Staff_sal%TYPE IS sal staff_Master.Staff_sal%TYPE;
+        BEGIN
+               SELECT staff_sal,Hiredate INTO sal,hDate FROM staff_Master WHERE staffcode=staff_Master.staff_code;
+               DA:=(0.15*sal);
+               HRA:=(0.2*sal);
+               TA:=0.08*sal;
+               yrs:=TRUNC(MONTHS_BETWEEN(SYSDATE,hDate))/12;
+               IF yrs>4 THEN
+                       SA:=0.3*sal;
+               ELSIF yrs>=2 THEN
+                       SA:=0.2*sal;
+               ELSIF yrs>=1 THEN
+                       SA:=0.1*sal;
+               ELSE
+                      SA:=0;
+               END IF;
+               sal:=sal+DA+HRA+TA+SA;
+               RETURN sal;
+       END;
+    BEGIN
+       DBMS_OUTPUT.PUT_LINE(Cal_Sal(v_staffcode));
+   END;
+SQL> /
+Enter value for cd: 100006
+old   2:     v_staffcode staff_Master.Staff_Code%TYPE:=&cd;
+new   2:     v_staffcode staff_Master.Staff_Code%TYPE:=100006;
+72660
+
+
+4.7
+PL/SQL procedure successfully completed.
+
+  1   DECLARE
+  2      v_staffcode staff_Master.Staff_Code%TYPE:=&cd;
+  3      sal NUMBER(10,2);
+  4      nsal NUMBER(10,2);
+  5      hDate DATE;
+  6      yrs NUMBER(4,2);
+  7      PROCEDURE Upd_Sal(staffcode staff_Master.Staff_Code%TYPE) IS
+  8      BEGIN
+  9              SELECT staff_sal,Hiredate INTO sal,hDate FROM staff_Master WHERE staff_Master.staff_code=staffcode;
+ 10              yrs:=TRUNC(MONTHS_BETWEEN(SYSDATE,hDate))/12;
+ 11              IF yrs>5 THEN
+ 12                      nsal:=sal+0.25*sal;
+ 13              ELSIF yrs>2 THEN
+ 14                      nsal:=sal+0.2*sal;
+ 15              ELSE
+ 16                      nsal:=sal;
+ 17              END IF;
+ 18         UPDATE Staff_Master
+ 19             SET Staff_sal=nsal WHERE staff_Master.Staff_Code=staffcode;
+ 20         UPDATE Staff_Master_Back
+ 21             SET Staff_sal=sal WHERE Staff_Master_Back.Staff_Code=staffcode;
+ 22      EXCEPTION
+ 23     WHEN no_data_found THEN
+ 24             DBMS_OUTPUT.PUT_LINE('NO DATA FOUND');
+ 25     WHEN OTHERS THEN
+ 26             DBMS_OUTPUT.PUT_LINE('Error');
+ 27      END;
+ 28   BEGIN
+ 29      Upd_Sal(v_staffcode);
+ 30*  END;
+SQL> /
+Enter value for cd: 100006
+old   2:     v_staffcode staff_Master.Staff_Code%TYPE:=&cd;
+new   2:     v_staffcode staff_Master.Staff_Code%TYPE:=100006;
+
+PL/SQL procedure successfully completed.
+
+Trigger 1
+
+
+  1  CREATE     PROCEDURE CHECK_SALARY(n_jobID IN NUMBER,SALARY IN NUMBER) IS
+  2     BEGIN
+  3             DBMS_OUTPUT.PUT_LINE('Staff Code: '||n_jobID);
+  4             DBMS_OUTPUT.PUT_LINE('Salary: '||SALARY);
+  5*    END;
+SQL> /
+
+Procedure created.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  CREATE OR REPLACE TRIGGER CHECK_SALARY_TRG
+  2  BEFORE INSERT OR UPDATE ON staff_Master
+  3  FOR EACH ROW
+  4  BEGIN
+  5     CHECK_SALARY(:new.staff_code,:new.Staff_sal);
+  6     DBMS_OUTPUT.PUT_LINE('Hello');
+  7* END;
+SQL> /
+
+Trigger created.
+SQL> INSERT INTO staff_Master Values(100016,'Ram',104,30,'15-JAN-75','19-FEB-09',100006,32500,'BANGALORE');
+Staff Code: 100016
+Salary: 32500
+Hello
+
+1 row created.
+
+Trigger 2.a
+
+
+  1          CREATE OR REPLACE TRIGGER check_salary_trg
+  2          BEFORE INSERT OR UPDATE ON staff_Master
+  3          FOR EACH ROW
+  4          WHEN (new.staff_code <> NVL(old.staff_code,0) OR new.staff_sal <> NVL(old.staff_sal,0))
+  5          DECLARE
+  6          PROCEDURE CHECK_SALARY(n_jobID IN NUMBER,SALARY IN NUMBER) IS
+  7          BEGIN
+  8                  DBMS_OUTPUT.PUT_LINE('Staff Code: '||n_jobID);
+  9                 DBMS_OUTPUT.PUT_LINE('Salary: '||SALARY);
+ 10        END;
+ 11        BEGIN
+ 12        check_salary(:new.staff_code, :new.staff_sal);
+ 13*      END;
+ 14  /
+
+Trigger created.
+
+SQL> UPDATE staff_master
+  2  SET staff_sal=100056 WHERE staff_code=100001;
+Staff Code: 100001
+Salary: 100056
+
+1 row updated.
+
+SQL> INSERT INTO staff_master
+  2  VALUES(100069,'Allen',103,30,'22-Jan-80','23-Apr-01',100005,42000,'Chennai'
+);
+Staff Code: 100069
+Salary: 42000
+
+1 row created.
+
+TRIGGER 3
+
+
+  1  CREATE OR REPLACE TRIGGER DELETE_EMP_TRG
+  2  BEFORE DELETE ON emp
+  3  FOR EACH ROW
+  4  DECLARE
+  5     V_DAY VARCHAR2(3):=TO_CHAR(SYSDATE,'DY');
+  6     V_HRS PLS_INTEGER:=TO_NUMBER(TO_CHAR(SYSDATE,'HH24'));
+  7  BEGIN
+  8     IF(V_HRS BETWEEN 9 AND 18)AND(V_DAY NOT IN('SAT','SUN'))THEN
+  9             RAISE_APPLICATION_ERROR(-20150,'Employee cannot be deleted durin
+g the week 9am and 6pm');
+ 10     END IF;
+ 11* END;
+SQL> /
+
+Trigger created.
+
+SQL> DELETE FROM emp WHERE EMPNO=7902;
+DELETE FROM emp WHERE EMPNO=7902
+            *
+ERROR at line 1:
+ORA-20150: Employee cannot be deleted during the week 9am and 6pm
+ORA-06512: at "SYSTEM.DELETE_EMP_TRG", line 6
+ORA-04088: error during execution of trigger 'SYSTEM.DELETE_EMP_TRG'

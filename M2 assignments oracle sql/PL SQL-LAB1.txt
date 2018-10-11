@@ -1,0 +1,145 @@
+2.3
+
+
+
+  1  DECLARE
+  2  StaffCode number;
+  3  StaffName varchar2(20);
+  4  Salary number;
+  5  DeptNo number := &a;
+  6  CURSOR staffMaster IS SELECT staff_code, staff_name, staff_sal from staff_master where dept_code=DeptNo;
+  7  BEGIN
+  8  OPEN StaffMaster;
+  9  LOOP
+ 10  Fetch StaffMaster INTO StaffCode, StaffName, Salary;
+ 11  EXIT WHEN StaffMaster%NOTFOUND;
+ 12  dbms_output.put_line('Staff Code' ||StaffCode);
+ 13  dbms_output.put_line('Staff Name' ||StaffName);
+ 14  dbms_output.put_line('Staff Salary' ||Salary);
+ 15  END LOOP;
+ 16  CLOSE StaffMaster;
+ 17* END;
+SQL> /
+
+
+
+
+
+2.4
+
+
+
+
+  1  DECLARE
+  2  StaffCode number;
+  3  StaffName varchar2(20);
+  4  Salary number(20);
+  5  INC number;
+  6  NewSalary number;
+  7  DeptNo number := &a;
+  8  CURSOR staffMaster IS SELECT staff_code, staff_name, staff_sal from staff_master where dept_code=DeptNo;
+  9  BEGIN
+ 10  OPEN StaffMaster;
+ 11  LOOP
+ 12  Fetch StaffMaster INTO StaffCode, StaffName, Salary;
+ 13  EXIT WHEN StaffMaster%NOTFOUND;
+ 14  INC := Salary*0.30;
+ 15  if INC<5000
+ 16  then
+ 17  NewSalary := INC + Salary;
+ 18  dbms_output.put_line('StaffCode =' || StaffCode);
+ 19  dbms_output.put_line('StaffName =' || StaffName);
+ 20  dbms_output.put_line('Salary =' || Salary);
+ 21  else
+ 22  NewSalary := Salary + 5000;
+ 23  dbms_output.put_line('StaffCode =' || StaffCode);
+ 24  dbms_output.put_line('StaffName =' || StaffName);
+ 25  dbms_output.put_line('Salary =' || Salary);
+ 26  END if;
+ 27  END LOOP;
+ 28  CLOSE StaffMaster;
+ 29* END;
+SQL> /
+Enter value for a: 10
+old   7: DeptNo number := &a;
+new   7: DeptNo number := 10;
+StaffCode =100003
+StaffName =Mohan
+Salary =24000
+StaffCode =100005
+StaffName =John
+Salary =32000
+
+PL/SQL procedure successfully completed.
+
+
+2.5
+
+
+
+
+ DECLARE
+ d_code number := &a;
+    cursor NEERAJ IS
+    select m.student_name,m.dept_code, s.subject1,s.subject2,s.subject3 from student_master m INNER JOIN student_marks s ON m.student_code=s.student_code WHERE m.dept_code=d_code;
+    kumar NEERAJ%ROWTYPE;
+ s_name varchar2(20);
+     total number;
+     percentage number;
+    grade varchar2(2);
+    BEGIN
+ OPEN NEERAJ;
+ LOOP
+ FETCH NEERAJ INTO kumar;
+EXIT WHEN NEERAJ%NOTFOUND;
+    total := kumar.subject1+kumar.subject2+kumar.subject3;
+    percentage := (total*100)/300;
+    IF percentage >=80
+    THEN
+    grade := 'A';
+    ELSIF percentage>=70
+    THEN
+    grade :='B';
+    elsif percentage>=60
+    then
+    grade :='C';
+    else
+    grade :='D';
+    end if;
+dbms_output.put_line('NAME:  ' || kumar.student_name || '  total  ' || total || '  Perc  ' || ROUND(percentage,2) ||'  Grade  ' || grade );
+    end loop;
+ CLOSE NEERAJ;
+ END;
+/
+
+
+
+2.6
+
+
+     DECLARE
+ CURSOR s_master(d_code number) IS SELECT * from staff_master where dept_code=d_code;
+master s_master%ROWTYPE;
+BEGIN
+OPEN s_master(&d_code);
+LOOP
+FETCH s_master into master;
+EXIT WHEN s_master%NOTFOUND;
+dbms_output.put_line('staff Code:'||master.staff_code);
+dbms_output.put_line('staff Name:'||master.staff_name);
+dbms_output.put_line('Design Code:'||master.design_code);
+dbms_output.put_line('Dept Code:'||master.dept_code);
+dbms_output.put_line('staff DOB:'||master.staff_dob);
+dbms_output.put_line('Hire Date:'||master.hiredate);
+dbms_output.put_line('MGR Code:'||master.mgr_code);
+dbms_output.put_line('staff Salary:'||master.staff_sal);
+dbms_output.put_line('staff Address:'||master.staff_address);
+END LOOP;
+CLOSE s_master;
+END; 
+/
+
+
+
+
+

@@ -1,0 +1,109 @@
+
+  1  DECLARE
+  2  st_sal  Number(10,2);
+  3  dep_code Number;
+  4  CURSOR s_staffs IS SELECT max(Staff_sal) FROM staff_master where dept_code=dep_code;
+  5  BEGIN
+  6  dep_code:=&a;
+  7  open s_staffs;
+  8  LOOP
+  9  FETCH s_staffs INTO st_sal;
+ 10  EXIT WHEN s_staffs%NOTFOUND;
+ 11  dbms_output.Put_line('Max salary for department is='||st_sal);
+ 12  END LOOP;
+ 13  CLOSE s_staffs;
+ 14* END;
+SQL> /
+Enter value for a: 10
+old   6: dep_code:=&a;
+new   6: dep_code:=10;
+Max salary for department is=32000
+
+PL/SQL procedure successfully completed.
+
+
+
+  1  DECLARE
+  2  d_date DATE;
+  3  age number;
+  4  Procedure ages(d IN date,a OUT number) IS
+  5  BEGIN
+  6  SELECT MONTHS_BETWEEN(SYSDATE,d) Into a from dual;
+  7  END;
+  8  BEGIN
+  9  d_date:='&date';
+ 10  ages(d_date,age);
+ 11  dbms_output.put_line('AGE IS='||age/12);
+ 12* END;
+SQL> /
+Enter value for date: 26-jan-2016
+old   9: d_date:='&date';
+new   9: d_date:='26-jan-2016';
+AGE IS=2.70556694295101553166069295101553166069
+
+PL/SQL procedure successfully completed.
+
+
+
+  1  DECLARE
+  2  st_name Varchar2(50);
+  3  st_code Number(8);
+  4  CURSOR s_staffs IS SELECT UPPER(staff_name) FROM staff_master where staff_code=st_code;
+  5  BEGIN
+  6  st_code:='&code';
+  7  open s_staffs;
+  8  LOOP
+  9  FETCH s_staffs INTO st_name;
+ 10  EXIT WHEN s_staffs%NOTFOUND;
+ 11  dbms_output.Put_line('NAME OF STAFF='||st_name);
+ 12  END LOOP;
+ 13  CLOSE s_staffs;
+ 14* END;
+SQL> /
+Enter value for code: 100001
+old   6: st_code:='&code';
+new   6: st_code:='100001';
+NAME OF STAFF=ARVIND
+
+
+
+  1  DECLARE
+  2  st_code number(8);
+  3  st_sal number;
+  4  da number;
+  5  hra number;
+  6  ta number;
+  7  sa number;
+  8  extra number;
+  9  Procedure salary(st_code IN Number , extra IN OUT number ) IS
+ 10  BEGIN
+ 11  SELECT staff_sal Into st_sal from staff_master where staff_code=st_code;
+ 12  da:=0.15*st_sal;
+ 13  hra:=0.20*st_sal;
+ 14  ta:=0.08*st_sal;
+ 15  SELECT MONTHS_BETWEEN(SYSDATE,HIREDATE) Into extra from staff_master where staff_code=st_code;
+ 16  if((extra/12)<1)
+ 17  THEN
+ 18  st_sal:=st_sal+ta+da+hra;
+ 19  ELSIF((extra/12)<2)
+ 20  THEN
+ 21  st_sal:=st_sal+hra+ta+da+(st_sal*0.10);
+ 22  ELSIF((extra/12)<4)
+ 23  THEN
+ 24  st_sal:=st_sal+hra+ta+da+(st_sal*0.20);
+ 25  ELSE
+ 26  st_sal:=st_sal+hra+ta+da+(st_sal*0.30);
+ 27  END IF;
+ 28  END;
+ 29  BEGIN
+ 30  st_code:=&CODE;
+ 31  salary(st_code,extra);
+ 32  dbms_output.put_line('Staff salary='||st_sal);
+ 33* END;
+SQL> /
+Enter value for code: 100001
+old  30: st_code:=&CODE;
+new  30: st_code:=100001;
+Staff salary=29410
+
+PL/SQL procedure successfully completed.

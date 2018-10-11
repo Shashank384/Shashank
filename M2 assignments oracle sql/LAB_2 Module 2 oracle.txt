@@ -1,0 +1,157 @@
+
+SQL> SELECT staff_name,'$'||staff_sal FROM staff_master;
+
+STAFF_NAME                                         '$'||STAFF_SAL
+-------------------------------------------------- -----------------------------------------
+Arvind                                             $17000
+Shyam                                              $20000
+Mohan                                              $24000
+Anil                                               $20000
+John                                               $32000
+Allen                                              $42000
+Smith                                              $62000
+Raviraj                                            $18000
+Rahul                                              $22000
+Ram                                                $32000
+
+10 rows selected.
+
+
+SQL> SELECT STUDENT_NAME,TO_CHAR(STUDENT_DOB,'MONTH DD YYYY') AS STUDENT_DOB FROM STUDENT_MASTER WHERE TO_CHAR(STUDENT_DOB,'DAY') LIKE  ('%SATURDAY%') OR TO_CHAR(STUDENT_DOB,'DAY') LIKE  ('%SUNDAY%')
+;
+
+STUDENT_NAME                                       STUDENT_DOB
+-------------------------------------------------- --------------------------------------------
+Ravi                                               NOVEMBER  01 1981
+Raj                                                JANUARY   14 1979
+Arvind                                             JANUARY   15 1983
+Mehul                                              JANUARY   17 1982
+Vijay                                              JANUARY   19 1980
+Rajat                                              JANUARY   20 1980
+Ramesh                                             DECEMBER  27 1980
+Amit Raj                                           SEPTEMBER 28 1980
+
+8 rows selected.
+
+
+
+SQL> SELECT staff_name, MONTHS_BETWEEN.
+  2     (TO_DATE(SYSDATE,'DD-MM-YYYY'),
+  3     (TO_DATE(HIREDATE,'DD-MM-YYYY'))) from staff_master ORDER BY Hiredate desc;
+
+STAFF_NAME                                         MONTHS_BETWEEN(TO_DATE(SYSDATE,'DD-MM-YYYY'),(TO_DATE(HIREDATE,'DD-MM-YYYY')))
+-------------------------------------------------- ------------------------------------------------------------------------------
+Rahul                                                                                                          177.806452
+Arvind                                                                                                         188.677419
+Raviraj                                                                                                        188.806452
+Smith                                                                                                          198.774194
+Shyam                                                                                                          199.612903
+Mohan                                                                                                          200.548387
+Ram                                                                                                            200.612903
+Allen                                                                                                          209.419355
+Anil                                                                                                           210.806452
+John                                                                                                           212.483871
+
+10 rows selected.
+
+
+
+SQL> SELECT staff_name, staff_sal,rpad(' ',staff_sal/1000,'X') from staff_master;
+
+STAFF_NAME                                          STAFF_SAL
+-------------------------------------------------- ----------
+RPAD('',STAFF_SAL/1000,'X')
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Arvind                                                  17000
+ XXXXXXXXXXXXXXXX
+
+Shyam                                                   20000
+ XXXXXXXXXXXXXXXXXXX
+
+Mohan                                                   24000
+ XXXXXXXXXXXXXXXXXXXXXXX
+
+Anil                                                    20000
+ XXXXXXXXXXXXXXXXXXX
+
+John                                                    32000
+ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Allen                                                   42000
+ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Smith                                                   62000
+ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Raviraj                                                 18000
+ XXXXXXXXXXXXXXXXX
+
+Rahul                                                   22000
+ XXXXXXXXXXXXXXXXXXXXX
+
+Ram                                                     32000
+ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+
+10 rows selected.
+
+
+SQL> SELECT * FROM STAFF_MASTER WHERE To_char(HIREDATE,'DD') BETWEEN 1 AND 15 AND To_char(HIREDATE,'MON') LIKE '%DE%';
+
+STAFF_CODE STAFF_NAME                                         DESIGN_CODE  DEPT_CODE STAFF_DOB HIREDATE    MGR_CODE  STAFF_SAL
+---------- -------------------------------------------------- ----------- ---------- --------- --------- ---------- ----------
+STAFF_ADDRESS
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    100009 Rahul                                                      102         20 16-JAN-78 11-DEC-03     100006      22000
+Hyderabad
+
+
+
+
+SQL> SELECT STAFF_NAME,TO_CHAR(HIREDATE,'MONTH DD YYYY') AS HIREDAT, To_char(HIREDATE,'Day') as day FROM STAFF_MASTER ORDER BY to_char(HIREDATE-1,'D');
+
+STAFF_NAME                                         HIREDAT                                      DAY
+-------------------------------------------------- -------------------------------------------- ------------------------------------
+Allen                                              APRIL     23 2001                            Monday
+Smith                                              MARCH     12 2002                            Tuesday
+Arvind                                             JANUARY   15 2003                            Wednesday
+Rahul                                              DECEMBER  11 2003                            Thursday
+Ram                                                JANUARY   17 2002                            Thursday
+Raviraj                                            JANUARY   11 2003                            Saturday
+Mohan                                              JANUARY   19 2002                            Saturday
+Anil                                               MARCH     11 2001                            Sunday
+Shyam                                              FEBRUARY  17 2002                            Sunday
+John                                               JANUARY   21 2001                            Sunday
+
+10 rows selected.
+
+
+
+SQL> SELECT rpad(rpad(substr(staff_name,1,1),length(staff_name)-1,'*'),length(staff_name),substr(staff_name,-1,1)) from staff_master;
+
+RPAD(RPAD(SUBSTR(STAFF_NAME,1,1),LENGTH(STAFF_NAME)-1,'*'),LENGTH(STAFF_NAME),SUBSTR(STAFF_NAME,-1,1))
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+A****d
+S***m
+M***n
+A**l
+J**n
+A***n
+S***h
+R*****j
+R***l
+R*m
+
+10 rows selected.
+
+
+SQL> SELECT NEXT_DAY(LAST_DAY(SYSDATE)-7,'FRIDAY') FROM DUAL;
+
+NEXT_DAY(
+---------
+26-OCT-18
+
+

@@ -1,0 +1,47 @@
+DECLARE
+sta_code number(8) ;
+sta_name varchar2(50);
+sta_sal number(10,2);
+dep_code number;
+CURSOR s_staffs IS SELECT staff_name,staff_code,staff_sal from staff_master WHERE dept_code=dep_code;
+BEGIN
+dep_code:=&a;
+open s_staffs;
+LOOP
+FETCH s_staffs INTO sta_name,sta_code,sta_sal;
+EXIT when s_staffs%NOTFOUND;
+dbms_output.Put_line('STAFF CODE='||sta_code);
+dbms_output.put_line('STAFF NAME='||sta_name);
+dbms_output.put_line('STAFF SALARY='||sta_sal);
+END LOOP;
+close s_staffs;
+END;
+/
+
+
+DECLARE
+	st_sal Number(10,2);
+	dep_code Number;
+	x number;
+	y number;
+	CURSOR s_staffs IS SELECT staff_sal from staff_master where dept_code=dep_code;
+BEGIN
+dep_code:=&a;
+open s_staffs;
+LOOP
+FETCH s_staffs INTO st_sal;
+EXIT when s_staffs%NOTFOUND;
+x:=st_sal*1.30;
+y:=st_sal+5000;
+if(x>y)
+THEN
+st_sal:=st_sal+5000;
+else
+st_sal:=st_sal*1.30;
+END iF;
+dbms_output.put_line('STAFF SALARY ='||st_sal);
+END LOOP;
+close s_staffs;
+END;
+/
+3
