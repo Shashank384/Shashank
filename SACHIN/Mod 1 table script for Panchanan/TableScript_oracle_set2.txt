@@ -1,0 +1,139 @@
+DROP TABLE User_data;
+DROP TABLE Category;
+DROP TABLE Publisher;
+DROP TABLE Author;
+DROP TABLE Bookdata;
+DROP TABLE Issue;
+DROP TABLE Fine;
+DROP TBALE Log;
+
+CREATE TABLE Log(
+Userid varchar2(12),
+comment varchar2(15));
+
+CREATE TABLE User_data(
+ Userid varchar2(12) PRIMARY KEY,
+ Name varchar2(20),
+ Dept varchar2(20),
+ Address varchar2(40));
+
+
+CREATE TABLE Category(
+ Cid varchar2(12)PRIMARY KEY,
+ Cdesc varchar2(20));
+ 
+CREATE TABLE Publisher(
+ Pid varchar2(12) PRIMARY KEY,
+ Pname varchar2(20),
+ Paddress varchar2(30));
+ 
+CREATE TABLE Author(
+ Aid varchar2(12) PRIMARY KEY,
+ Name varchar2(20),
+ Address varchar2(30));
+ 
+
+CREATE TABLE Bookdata(
+Bkid varchar2(12) PRIMARY KEY,
+Name varchar2(20),
+Price number(5,3),
+Edition integer,
+Aid varchar2(12),
+Pid varchar2(12),
+Cid varchar2(12),
+FOREIGN KEY(Pid) REFERENCES Publisher(Pid),
+FOREIGN KEY(Cid) REFERENCES Category(Cid),
+FOREIGN KEY(Aid) REFERENCES Author(Aid));
+
+CREATE TABLE Issue(
+Userid varchar2(12),
+Bookid varchar2(12),
+Issue_date date,
+PRIMARY KEY(Userid,Bookid),
+FOREIGN KEY(Userid) REFERENCES User_data(Userid),
+FOREIGN KEY(Bookid) REFERENCES Bookdata(Bkid));
+
+CREATE TABLE Fine(
+Fid varchar2(12) PRIMARY KEY,
+Userid varchar2(12),
+Bookid varchar2(12),
+Fine_amt integer,
+FOREIGN KEY(Userid) REFERENCES User_data(Userid),
+FOREIGN KEY(Bookid) REFERENCES Bookdata(Bkid));
+
+
+ INSERT INTO User_data VALUES('U1','John','BU');
+
+ INSERT INTO User_data VALUES('U2','Aaish','CU');
+
+ INSERT INTO User_data VALUES('U3','Jermey','IT');
+
+ INSERT INTO User_data VALUES('U4','Alena','BU');
+
+ INSERT INTO User_data VALUES('U5','Boney','CU');
+
+
+
+ INSERT INTO Category VALUES('C1','DataBases');
+
+ INSERT INTO Category VALUES('C2','OS');
+
+ INSERT INTO Category VALUES('C3','Java');
+
+ INSERT INTO Category VALUES('C4','Web');
+
+ INSERT INTO Publisher VALUES('P1','TATA MC','India');
+
+ INSERT INTO Publisher VALUES('P2','Pearson','India');
+
+ INSERT INTO Publisher VALUES('P3','Wrox','USA');
+
+ INSERT INTO Publisher VALUES('P4','Prentice','USA');
+
+
+
+ INSERT INTO Author VALUES('a1','Navathe','Mumbai,India');
+
+ INSERT INTO Author VALUES('a3','Williams','Georgia,USA');
+
+ INSERT INTO Author VALUES('a4','John','Georgia,USA');
+
+ INSERT INTO Author VALUES('a2','Folk','Newyork,USA');
+
+
+INSERT INTO Bookdata VALUES('B1','Database',800,4,'a1','P1','C1');
+
+INSERT INTO Bookdata VALUES('B2','Linux',8,'a2','P1','C2',1800);
+
+INSERT INTO Bookdata VALUES('B3','Windows',10,'a3','P2','C2',2800);
+
+INSERT INTO Bookdata VALUES('B4','Servlet',4,'a4','P3','C3',900);
+
+INSERT INTO Bookdata VALUES('B5','Web services',6,'a4','P3','C4',1200);
+
+
+ INSERT INTO Bookdata VALUES('B1','Database',4,'a1','P1','C1',800);
+
+ INSERT INTO Bookdata VALUES
+    ('B2','Linux',8,'a2','P1','C2',1800);
+
+ INSERT INTO Bookdata VALUES
+    ('B3','Windows',10,'a3','P2','C2',2800);
+
+ INSERT INTO Bookdata VALUES
+    ('B4','Servlet',4,'a4','P3','C3',900);
+
+ INSERT INTO Bookdata VALUES('B5','Web 
+  2  services',6,'a4','P3','C4',1200);
+
+INSERT INTO Issue VALUES('U1','B1','22-DEC-2013');
+
+INSERT INTO Issue VALUES('U2','B2','22-OCT-2013');
+INSERT INTO Issue VALUES('U1','B2','2-JAN-2014');
+INSERT INTO Issue VALUES('U3','B4','03-DEC-2014');
+INSERT INTO Issue VALUES('U4','B3','15-JUN-2014');
+
+INSERT INTO Fine VALUES('F1','U1','B1','25');
+INSERT INTO Fine VALUES('F2','U2','B2','25');
+INSERT INTO Fine VALUES('F3','U4','B3','25');
+

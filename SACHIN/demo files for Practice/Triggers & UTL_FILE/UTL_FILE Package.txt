@@ -1,0 +1,43 @@
+If you want to move data from database to Operating system file then UTL_FILE package is used.
+
+1. Alias/logical directory to be created - oracle does not directly interact with operating system files but through this logical directory.
+
+
+syntax - create or replace directory <directory_name> as 'path';
+Eg - CREATE OR REPLACE DIRECTORY filedir AS 'd:\sachin';
+
+NOTE - proper permissions required
+
+SQL>GRANT CREATE ANY DIRECTORY TO <username>
+
+SQL> GRANT READ,WRITE ON filedir TO scott;
+
+
+
+
+SQL> /
+
+
+=====================================
+
+declare
+    f utl_file.file_type;-- File Handler
+
+begin
+    f :=utl_file.fopen
+('SAMPLE' --file location
+,'sample.txt' --file name
+,'w'); -- open mode write
+ 
+utl_file.put(f,'Hello World');
+utl_file.put(f,'how are you?');
+
+utl_file.fclose(f);
+
+EXCEPTION
+
+	WHEN OTHERS THEN
+DBMS_OUTPUT.PUT_LINE('ERROR :' || SQLCODE || '-' || SQLERRM );
+END;
+
+
