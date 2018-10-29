@@ -1,0 +1,34 @@
+Q1.
+
+    [SEP19_RDBMS6@NDAUNIX ~]$ vi doc.txt
+    [SEP19_RDBMS6@NDAUNIX ~]$ cat doc.txt
+    A network is a group of computers that can communicate with each other, share 
+    resources, and access remote hosts or other networks. Netware is a computer network 
+    operating system designed to connect, manage, and maintain a network and its services.
+    Some of the network services are Netware Directory Services (NDS), file system, 
+    printing and security.
+
+     a):%s/Novell/Novell Netware/g
+     b)/share resources
+     c)vi doc.txt
+       A
+       Managing NDS is a fundamental administrator role because NDS provides a single
+       point for accessing and managing most network resources.
+       
+     [SEP19_RDBMS6@NDAUNIX ~]$ cat doc.txt
+       A network is a group of computers that can communicate with each other,share 
+       resources such as hard disks and printers , and access remote hosts or other 
+       networks. Novell Netware is a computer network operating system designed to 
+       connect, manage, and maintain a network and its services. Some of the network 
+       services are Novell Netware Directory Services (NDS), file system, printing and 
+       security.Managing NDS is a fundamental administrator role because NDS provides a 
+       single point for accessing and managing most network resources.
+
+
+
+
+   
+    
+
+
+    

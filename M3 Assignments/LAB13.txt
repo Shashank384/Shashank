@@ -1,0 +1,219 @@
+                                               LAB13
+
+1.)
+sh sortmarks.sh && awk -F " " -f students.awk marks.dat
+Top two of UNIX are:
+41
+38
+Top two of DSA:
+40
+34
+
+Unix Average: 31
+ DSA Average: 30
+
+
+$cat students.awk
+BEGIN { printf " \n" }
+{
+if($3=="Unix")
+{
+kcount1++;
+sumU+=$4;
+}
+else($3=="DSA")
+{
+kcount2++;
+sumD+=$4;
+}
+}
+END {printf "Unix Average: %d \n DSA Average: %d\n",sumU/kcount1,sumD/kcount2}
+
+
+[SEP19_RDBMS17@NDAUNIX ~]$ cat sortmarks.sh
+echo "Top two of UNIX are:"
+awk '/Unix/ {print $4}' marks.dat | sort -r | sed -n '1,2p'
+echo "Top two of DSA:"
+awk '/DSA/ {print $4}' marks.dat | sort -r | sed -n '1,2p'
+
+
+
+
+
+
+
+
+
+
+
+
+
+2.)
+[SEP19_RDBMS17@NDAUNIX ~]$ who | sort -k4 |awk -F " " '{count++; print $1,$4} END {print count}'
+
+
+3.)_)
+
+ sh totmarks.sh && awk -F " " -f totmarks2.awk marks.dat
+ Bhupesh      41
+ Suresh      38
+ Deepesh      35
+
+No. of participants passed :5
+No. of Participants appeared: 5
+
+[SEP19_RDBMS17@NDAUNIX ~]$ cat totmarks.sh
+awk -F " " -f totmarks.awk marks.dat| sort -r -k6|awk -F ":" '{print $2,$4}'|head -3
+
+
+[SEP19_RDBMS17@NDAUNIX ~]$ cat totmarks.awk
+BEGIN{printf"\n\nEmpId:Emp Name:Subject:Ob Marks:Tot Marks:Percentage\n\n"}
+{
+if($3=="Unix")
+{res=$4*2;
+count++;
+if(res>30)
+{pass++;
+}
+printf "%s : %s : %s : %5d : %5d : %5d %\n",$1,$2,$3,$4,50,res}
+}
+END {print count,pass}
+
+
+
+4.))
+i)[SEP19_RDBMS17@NDAUNIX ~]$ awk '{print|"wc -l"}' roaster.txt
+
+ii) [SEP19_RDBMS17@NDAUNIX ~]$ awk '{print|"sort -k1"}' roaster.txt
+
+iii)[SEP19_RDBMS17@NDAUNIX ~]$ awk '{print|"sort -t ',' -k2,2"}' roaster.txt
+
+iv)[SEP19_RDBMS17@NDAUNIX ~]$ awk '{print $0}' roaster.txt | sort -t "|" -r -k4 | head -5
+
+					OR
+ awk '{print | "sort -r -t \"|\" -n -k4"}' roaster.txt|head -5
+
+
+v)[SEP19_RDBMS17@NDAUNIX ~]$ awk '/Wisconsin/{ print $0}' roaster.txt
+
+
+
+
+
+
+
+<<<<<5>>>>
+
+
+sh payslip.sh 1001 & sh payslip2.sh 1001
+[2] 44499
+begin
+Empno 1001
+Deptno 20
+Job CLERK
+Currency INR
+-------------------
+Earnings
+-------------------
+
+BASIC 15000
+HRA 2500
+CONVEYANCE 4500
+MEDICAL 1200
+-------------------
+Total Earnings: 23200
+-------------------
+Deductions
+--------------------
+PF 300
+PROF_TAX 1300
+TDS 1409
+---------------------
+Net Pay :   20191
+--------------------------
+
+[1]   Done                    sh payslip.sh 1001
+[2]+  Done                    sh payslip.sh 1001
+
+<<<<<<<<<SCRIPT FILE  1>>>>>>>>>>>>
+
+[SEP19_RDBMS17@NDAUNIX ~]$ cat payslip.sh
+awk -F " " '
+BEGIN { print "begin"}
+{
+if($1=='$1')
+{
+printf"Empno %s\nDeptno %s\nJob %s\nCurrency INR\n",$1,$4,$3;
+printf"-------------------\n";
+printf"Earnings\n";
+printf"-------------------\n";
+}}' emp_mast
+
+
+<<<<<<<<<<<<<SCRIPT FILE   2>>>>>>>>>>>>>
+
+[SEP19_RDBMS17@NDAUNIX ~]$ cat payslip2.sh
+awk -F " " '
+BEGIN {}
+{
+if($1=='$1')
+{
+printf"\nBASIC %s\nHRA %s\nCONVEYANCE %s\nMEDICAL %s\n",$2,$3,$4,$5;
+printf"-------------------\n";
+printf"Total Earnings: %d\n",$2+$3+$4+$5;
+printf"-------------------\n";
+printf"Deductions\n";
+printf"--------------------\n";
+printf"PF %s\nPROF_TAX %s\nTDS %s\n",$6,$7,$8;
+tot=$2+$3+$4+$5;
+ttax=$6+$7+$8;
+printf"---------------------\n";
+printf"Net Pay :   %d\n",tot-ttax;
+printf"--------------------------\n\n";
+}}' dept_mast
+
+
+<<<<<5.1>>>>>>>>>
+
+[SEP19_RDBMS17@NDAUNIX ~]$ sh payslip3.sh 20
+---------------------------
+Empno   Name    Job
+---------------------------
+
+ 1001 Deepesh CLERK
+ 1002 Brijesh    TL
+-------------------
+
+
+[SEP19_RDBMS17@NDAUNIX ~]$ cat payslip3.sh
+awk -F " " '
+BEGIN {
+printf"---------------------------\n";
+printf"Empno \tName \tJob\n";
+print"---------------------------\n";
+}
+{
+if($4=='$1')
+{
+printf"%5s %5s %5s\n",$1,$2,$3;
+}
+}
+END {printf"-------------------\n";}' emp_mast
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

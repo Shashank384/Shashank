@@ -1,0 +1,188 @@
+                         LAB 12
+
+
+1.
+
+
+1.) 
+
+alias l1='ls -s'
+
+2.)
+
+[SEP19_RDBMS18@NDAUNIX ~]$ alias
+alias l.='ls -d .* --color=auto'
+alias l1='ls -s'
+alias ll='ls -l --color=auto'
+alias ls='ls --color=auto'
+alias vi='vim'
+alias which='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde'
+[SEP19_RDBMS18@NDAUNIX ~]$ ^C
+[SEP19_RDBMS18@NDAUNIX ~]$
+
+
+
+3.) 
+
+[SEP19_RDBMS18@NDAUNIX ~]$ unalias l1
+
+
+4.)  [SEP19_RDBMS18@NDAUNIX ~]$ who | wc -l
+    51
+    [SEP19_RDBMS18@NDAUNIX ~]$
+
+5.)  [SEP19_RDBMS18@NDAUNIX ~]$ pwd
+    /home/SEP19_RDBMS18
+
+
+6.)  [SEP19_RDBMS18@NDAUNIX ~]$ paste -d ':' num employee.dat
+    1.:James|76382|PACE|Chennai
+    2.:John |34228|GRIT|Hyderabad
+    3.:Peter|22321|GE|Bangalore
+    4.:Albert|32342|GRIT|Pune
+    5.:Mathew|23222|PACE|Mumbai
+    6.:Richard|23232|ACS|Pune
+    [SEP19_RDBMS18@NDAUNIX ~]$
+
+
+7.)  [SEP19_RDBMS18@NDAUNIX ~]$ head -5 /etc/passwd
+     root:x:0:0:root:/root:/bin/bash
+     bin:x:1:1:bin:/bin:/sbin/nologin
+     daemon:x:2:2:daemon:/sbin:/sbin/nologin
+     adm:x:3:4:adm:/var/adm:/sbin/nologin
+     lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+     [SEP19_RDBMS18@NDAUNIX ~]$
+
+
+8)   [SEP19_RDBMS18@NDAUNIX etc]$ head -n-3 passwd
+
+
+9)   [SEP19_RDBMS18@NDAUNIX ~]$ tail -20 /etc/passwd
+
+
+10)  [SEP19_RDBMS18@NDAUNIX ~]$ sed -n '7p' /etc/passwd
+     shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+     [SEP19_RDBMS18@NDAUNIX ~]$
+
+
+
+13) 
+
+ [SEP19_RDBMS18@NDAUNIX ~]$ bc
+bc 1.06.95
+Copyright 1991-1994, 1997, 1998, 2000, 2004, 2006 Free Software Foundation, Inc.
+This is free software with ABSOLUTELY NO WARRANTY.
+For details type `warranty'.
+10 + 5
+15
+10-5
+5
+10*5
+50
+10/5
+2
+
+
+
+14)  
+
+[SEP19_RDBMS18@NDAUNIX ~]$ expr 10 + 20
+30
+[SEP19_RDBMS18@NDAUNIX ~]$
+
+
+15)
+
+ [SEP19_RDBMS18@NDAUNIX ~]$ factor
+20
+20: 2 2 5
+
+
+16) 
+
+HARD:
+
+[SEP19_RDBMS18@NDAUNIX ~]$ ln errorlog.txt err.txt 
+[SEP19_RDBMS18@NDAUNIX ~]$ ls -l errorlog.txt
+      -rw-rw-r-- 2 SEP19_RDBMS18 SEP19_RDBMS18 38 Oct 18 14:27 errorlog.txt
+
+SOFT:
+
+
+[SEP19_RDBMS18@NDAUNIX ~]$ ln -s errorlog.txt errsoft.txt
+[SEP19_RDBMS18@NDAUNIX ~]$ ls -l errsoft.txt
+lrwxrwxrwx 1 SEP19_RDBMS18 SEP19_RDBMS18 12 Oct 18 14:42 errsoft.txt -> errorlog.txt
+
+
+17)
+
+ [SEP19_RDBMS18@NDAUNIX ~]$ ls -i errsoft.txt err.txt errorlog.txt
+272795 errorlog.txt  
+273601 errsoft.txt  
+272795 err.txt
+
+18)  
+
+[SEP19_RDBMS18@NDAUNIX ~]$ rm errorlog.txt
+[SEP19_RDBMS18@NDAUNIX ~]$ ls -l err.txt
+-rw-rw-r-- 1 SEP19_RDBMS18 SEP19_RDBMS18 38 Oct 18 14:27 err.txt
+[SEP19_RDBMS18@NDAUNIX ~]$
+
+
+[SEP19_RDBMS18@NDAUNIX ~]$ rm err.txt
+
+
+
+19)
+
+[SEP19_RDBMS18@NDAUNIX ~]$ ls -l errsoft.txt
+lrwxrwxrwx 1 SEP19_RDBMS18 SEP19_RDBMS18 12 Oct 18 14:42 errsoft.txt -> errorlog.txt
+[SEP19_RDBMS18@NDAUNIX ~]$
+
+
+20) [SEP19_RDBMS18@NDAUNIX ~]$ cp /etc/passwd ~
+
+
+[SEP19_RDBMS18@NDAUNIX ~]$ du passwd
+32      passwd
+
+
+
+[SEP19_RDBMS18@NDAUNIX ~]$ gzip passwd
+
+
+
+
+[SEP19_RDBMS18@NDAUNIX ~]$ du passwd.gz
+8       passwd.gz
+[SEP19_RDBMS18@NDAUNIX ~]$
+
+
+21)
+
+[SEP19_RDBMS18@NDAUNIX ~]$ df
+Filesystem                   1K-blocks     Used Available Use% Mounted on
+/dev/mapper/VolGroup-lv_root  47066056 29416900  15258324  66% /
+tmpfs                          4091472       72   4091400   1% /dev/shm
+/dev/sda1                       495844    57083    413161  13% /boot
+[SEP19_RDBMS18@NDAUNIX ~]$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

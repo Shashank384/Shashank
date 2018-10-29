@@ -1,0 +1,78 @@
+Q1.
+
+  [SEP19_RDBMS6@NDAUNIX swati]$ grep "^s" student.dat|cut -d " " -f1
+   suresh
+   suraj
+   suraj
+
+
+Q2.
+    
+   [SEP19_RDBMS6@NDAUNIX swati]$ cut -d " " -f1 student.dat|grep "[ei]$"
+
+
+
+Q3.
+   [SEP19_RDBMS6@NDAUNIX swati]$ cut -d " " -f3|cat student.dat|grep 65
+    suraj pancholi 65 A
+
+   
+
+
+Q4.
+   
+    [SEP19_RDBMS6@NDAUNIX swati]$ cat student.dat|fgrep -e "sharma" -e "varma"
+    manoj sharma 55 B
+    rahul varma 87 A++
+
+
+Q5.
+    [SEP19_RDBMS6@NDAUNIX swati]$ cat student.dat|fgrep -e "65"
+    suraj pancholi 65 A
+
+Q6.
+    [SEP19_RDBMS6@NDAUNIX swati]$ cut -d " " -f1 student.dat|grep "^..r"
+     suresh
+     suraj
+     suraj
+
+
+Q7.
+   [SEP19_RDBMS6@NDAUNIX swati]$ cut -d " " -f1 student.dat|grep "^.[art]"
+   rameshchandra
+   rajat
+   manoj
+   rahul
+   manoj
+
+
+Q8.
+   [SEP19_RDBMS6@NDAUNIX swati]$ cut -d " " -f1 student.dat | grep "^.....$"
+   rajat
+   suraj
+   manoj
+   rahul
+   manoj
+   suraj
+
+
+Q9.
+
+  [SEP19_RDBMS6@NDAUNIX swati]$ cut -d " " -f1 student.dat | grep  "^......."
+  rameshchandra
+
+Q10.
+
+   [SEP19_RDBMS6@NDAUNIX swati]$ cut -d " " -f 1,2,3 student.dat | grep "6$"
+   manoj pandey 56
+
+Q11.
+
+
+   [SEP19_RDBMS6@NDAUNIX swati]$ grep -w 'A+$' student.dat
+   rameshchandra mane 79 A+
+
+
+   
+
+

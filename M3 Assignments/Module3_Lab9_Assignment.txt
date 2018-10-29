@@ -1,0 +1,88 @@
+Q1.
+   [SEP19_RDBMS6@NDAUNIX swati]$ file chap1
+   chap1: directory
+   [SEP19_RDBMS6@NDAUNIX swati]$ file errorlog.txt
+   errorlog.txt: ASCII text
+
+
+Q2.
+   [SEP19_RDBMS6@NDAUNIX swati]$ find |grep "errorlog.txt"
+   ./errorlog.txt
+
+
+Q3.
+   [SEP19_RDBMS6@NDAUNIX swati]$ find demo
+   demo
+
+
+Q3.
+  
+  1.
+    [SEP19_RDBMS6@NDAUNIX swati]$ sort student.txt
+    manoj   55      B
+    manoj   56      B
+    rahul   87      A++
+    rajat   25      C
+    ramesh  79      A+
+    suraj   45      B
+    suraj   65      A
+    suresh  88      A++
+
+
+
+ 2.
+   [SEP19_RDBMS6@NDAUNIX swati]$ sort -k1.3 student.txt
+   rahul   87      A++
+   rajat   25      C
+   ramesh  79      A+
+   manoj   55      B
+   manoj   56      B
+   suraj   45      B
+   suraj   65      A
+   suresh  88      A++
+
+
+ 3.
+    [SEP19_RDBMS6@NDAUNIX swati]$ sort -k1.2 student.txt
+    rahul   87      A++
+    rajat   25      C
+    ramesh  79      A+
+    manoj   55      B
+    manoj   56      B
+    suraj   45      B
+    suraj   65      A
+    suresh  88      A++
+
+
+ 4.
+   [SEP19_RDBMS6@NDAUNIX swati]$ sort -k1.1 -k1.3 student.txt
+   manoj   55      B
+   manoj   56      B
+   rahul   87      A++
+   rajat   25      C
+   ramesh  79      A+
+   suraj   45      B
+   suraj   65      A
+   suresh  88      A++
+
+5.
+  [SEP19_RDBMS6@NDAUNIX swati]$ cut -d " " -f1 student.txt|sort|uniq -d
+   manoj
+  suraj
+
+6. [SEP19_RDBMS6@NDAUNIX swati]$ cut -d " " -f1 student.txt|sort|uniq -u
+   rahul
+   rajat
+   ramesh
+   suresh
+
+
+
+  
+
+
+   
+
+   
+
+

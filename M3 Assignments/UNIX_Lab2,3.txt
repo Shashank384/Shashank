@@ -1,0 +1,197 @@
+LAB 2.UNIX File System
+
+2.1: Viewing the File System and Granting/Removing Permissions 
+(Note: Create required files if doesn’t exists.)
+[SEP19_RDBMS15@NDAUNIX ~]$ ls -l 
+	-rw-rw-r-- 1 SEP19_RDBMS15 SEP19_RDBMS15 172 Oct 15 12:30 aman.txt
+	-rw-rw-r-- 1 SEP19_RDBMS15 SEP19_RDBMS15  95 Oct 15 12:26 sk.txt
+
+[SEP19_RDBMS15@NDAUNIX ~]$ chmod 000 sk.txt
+[SEP19_RDBMS15@NDAUNIX ~]$
+	 -rw-rw-r-- 1 SEP19_RDBMS15 SEP19_RDBMS15 172 Oct 15 12:30 aman.txt
+                ---------- 1 SEP19_RDBMS15 SEP19_RDBMS15  95 Oct 15 12:26 sk.txt
+
+[SEP19_RDBMS15@NDAUNIX ~]$ chmod 664 sk.txt
+	-rw-rw-r-- 1 SEP19_RDBMS15 SEP19_RDBMS15 172 Oct 15 12:30 aman.txt
+            -rw-rw-r-- 1 SEP19_RDBMS15 SEP19_RDBMS15  95 Oct 15 12:26 sk.txt
+2.2: Change the directory to root directory. Check the system directories, like bin, etc, usr etc 
+[SEP19_RDBMS15@NDAUNIX ~]$ cd /
+
+
+
+LAB 3.UNIX Basic Command
+
+
+
+1. To display the current working directory, the command is: 
+
+[SEP19_RDBMS15@NDAUNIX ~]$pwd
+
+
+2. Display the path to and name of your HOME directory. 
+
+[SEP19_RDBMS15@NDAUNIX ~]$ $PATH
+[SEP19_RDBMS15@NDAUNIX ~]$ $HOME
+
+
+3. Display the login name using which you have logged into the system 
+
+[SEP19_RDBMS15@NDAUNIX ~]$ logname
+SEP19_RDBMS15
+
+
+4. Display the hidden files of your current directory.
+ 
+5.)[SEP19_RDBMS15@NDAUNIX ~]$ ls -a
+
+6.)[SEP19_RDBMS15@NDAUNIX ~]$ ls
+
+7.)[[SEP19_RDBMS15@NDAUNIX ~]$ ls |grep 'c[a-z]\+[0-9a-z]\+.[^A-Z].*'
+capchc.txt
+chap1
+chap2.txt
+chap3.txt
+chap4.txt
+chap5.txt
+chapab
+
+8.)[SEP19_RDBMS15@NDAUNIX ~]$ mkdir C_Prog
+
+9.)[SEP19_RDBMS15@NDAUNIX ~]$ mkdir newdir newdirectory
+
+
+10.)[SEP19_RDBMS15@NDAUNIX ~]$ ls -r *
+sumanth.txt  neeraj.txt  chap5.txt  chap3.txt  chap1  aman.txt
+sk.txt       chapab      chap4.txt  chap2.txt  CHAP
+
+newdirectory:
+
+newdir:
+
+C_Prog:
+new.c
+
+OR
+
+[SEP19_RDBMS15@NDAUNIX ~]$ find *
+aman.txt
+CHAP
+chap1
+chap2.txt
+chap3.txt
+chap4.txt
+chap5.txt
+chapab
+C_Prog
+C_Prog/new.c
+neeraj.txt
+newdir
+newdirectory
+sk.txt
+sumanth.txt
+
+11.)[SEP19_RDBMS15@NDAUNIX ~]$ rmdir newdirectory
+
+12.)[SEP19_RDBMS15@NDAUNIX ~]$ mkdir temp
+
+13.)[SEP19_RDBMS15@NDAUNIX ~]$ rmdir newdir
+[SEP19_RDBMS15@NDAUNIX ~]$ ls
+aman.txt  chap1      chap3.txt  chap5.txt  chapAC.txt  neeraj.txt  sumanth.txt
+CHAP      chap2.txt  chap4.txt  chapab     C_Prog      sk.txt      temp
+
+
+14.)[SEP19_RDBMS15@NDAUNIX ~]$ cd temp
+[SEP19_RDBMS15@NDAUNIX temp]$ ls
+[SEP19_RDBMS15@NDAUNIX temp]$ mkdir directorynew
+[SEP19_RDBMS15@NDAUNIX temp]$ ls
+directorynew
+
+15.)[SEP19_RDBMS15@NDAUNIX temp]$ cd ~
+[SEP19_RDBMS15@NDAUNIX ~]$
+
+
+17.)[SEP19_RDBMS15@NDAUNIX ~]$ rm -r C_Prog
+
+18.)[SEP19_RDBMS15@NDAUNIX ~]$ cd /etc
+
+19.)[SEP19_RDBMS15@NDAUNIX bin]$ ls -ld .*
+
+20.)
+[SEP19_RDBMS15@NDAUNIX ~]$ nano first.unix
+[SEP19_RDBMS15@NDAUNIX ~]$ cat first.unix > first.unics
+[SEP19_RDBMS15@NDAUNIX ~]$ ls
+aman.txt  chap2.txt  chap5.txt   first.unics  sk.txt
+CHAP      chap3.txt  chapab      first.unix   sumanth.txt
+chap1     chap4.txt  chapAC.txt  neeraj.txt   temp
+[SEP19_RDBMS15@NDAUNIX ~]$ cat first.unics
+Hi! Good Morning everybody.
+Welcome to the First exercise on UNIX
+Hope you enjoy doing the assignments
+
+22.)
+[SEP19_RDBMS15@NDAUNIX ~]$ cat first.unix first.unics
+Hi! Good Morning everybody.
+Welcome to the First exercise on UNIX
+Hope you enjoy doing the assignments
+Hi! Good Morning everybody.
+Welcome to the First exercise on UNIX
+Hope you enjoy doing the assignments
+
+23./24.)
+[SEP19_RDBMS15@NDAUNIX ~]$ cp -p *.* temp/directorynew
+[SEP19_RDBMS15@NDAUNIX ~]$ cd temp/directorynew
+[SEP19_RDBMS15@NDAUNIX directorynew]$ ls
+aman.txt   chap3.txt  chap5.txt   first.unics  neeraj.txt  sumanth.txt
+chap2.txt  chap4.txt  chapAC.txt  first.unix   sk.txt
+
+25.)
+[SEP19_RDBMS15@NDAUNIX ~]$ cp -p first.unix temp/second.unix
+[SEP19_RDBMS15@NDAUNIX ~]$ cd temp
+[SEP19_RDBMS15@NDAUNIX temp]$ ls
+directorynew  second.unix
+[SEP19_RDBMS15@NDAUNIX temp]$ cat second.unix
+Hi! Good Morning everybody.
+Welcome to the First exercise on UNIX
+Hope you enjoy doing the assignments
+
+26.)
+[SEP19_RDBMS15@NDAUNIX ~]$ rm first.unics
+
+27.)
+[SEP19_RDBMS15@NDAUNIX temp]$ rm *
+rm: cannot remove `directorynew': Is a directory
+
+28.)
+[SEP19_RDBMS15@NDAUNIX directorynew]$ mv *[aco].txt ~
+
+29.)
+[SEP19_RDBMS15@NDAUNIX ~]$ mv *.unix temp
+[SEP19_RDBMS15@NDAUNIX ~]$ cd temp
+[SEP19_RDBMS15@NDAUNIX temp]$ ls
+directorynew  first.unix
+
+30.)
+[SEP19_RDBMS15@NDAUNIX ~]$ rm -r temp
+
+32.) cat > friends
+
+33.)  cat friends
+
+34.)cat friends > newfriend
+
+35.) cat friends newfriend
+
+36.) [SEP19_RDBMS15@NDAUNIX ~]$ who > users.txt
+
+37.)[SEP19_RDBMS15@NDAUNIX ~]$ cat friends >> users.txt
+
+38.)[SEP19_RDBMS15@NDAUNIX ~]$ date
+Mon Oct 15 17:54:20 IST 2018 
+
+39.)[SEP19_RDBMS15@NDAUNIX ~]$ cal 1 1994
+
+40.)
+
+
+
+

@@ -1,0 +1,52 @@
+Q1.
+    [SEP19_RDBMS6@NDAUNIX swati]$ man ls>lsdoc.txt
+
+
+
+Q2.
+   [SEP19_RDBMS6@NDAUNIX swati]$ cat lsdoc | more -d
+
+   
+   
+
+Q3.
+   [SEP19_RDBMS6@NDAUNIX swati]$ cat> data.txt<demofile6.txt
+   [SEP19_RDBMS6@NDAUNIX swati]$ cat data.txt
+   Lion
+   Tiger
+   Leopard
+   Panther
+   Octopus
+
+
+Q4.
+
+   [SEP19_RDBMS6@NDAUNIX swati]$ cat data.txt
+   Lion
+   Tiger
+   Leopard
+   Panther
+   Octopus
+   
+
+Q5.
+   
+   [SEP19_RDBMS6@NDAUNIX swati]$ rm data.txt
+   [SEP19_RDBMS6@NDAUNIX swati]$ ls
+   capch.txt  chap1  chap2.txt  chap3.txt  chap4.txt  chap5.txt  chapab  demofile4.txt  
+   demofile5.txt  demofile6.txt  demofile7.txt
+
+   
+
+Q6.
+
+   [SEP19_RDBMS6@NDAUNIX swati]$ cat data.txt 2>errorlog.txt
+   
+
+Q7.
+    [SEP19_RDBMS6@NDAUNIX swati]$ cat errorlog.txt
+    cat: data.txt: No such file or directory
+    
+
+
+   

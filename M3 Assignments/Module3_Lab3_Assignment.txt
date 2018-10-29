@@ -1,0 +1,306 @@
+                         Lab 3. UNIX File System
+
+
+
+
+1. To display the current working directory, the command is:
+   pwd
+   The output is as follows.
+   /home/trg1
+
+ANS.  [SEP19_RDBMS6@NDAUNIX home]$ pwd
+
+2. Display the path to and name of your HOME directory.
+
+ANS. [SEP19_RDBMS6@NDAUNIX home]$ Path to home directory-  echo $HOME
+     [SEP19_RDBMS6@NDAUNIX home]$ Name of home directory-  pwd
+
+3. Display the login name using which you have logged into the system
+ANS.  [SEP19_RDBMS6@NDAUNIX home]$ logname
+
+4. Display the hidden files of your current directory.
+ANS. [SEP19_RDBMS6@NDAUNIX home]$ ls -a
+
+5. List the names of all the files in your home directory.
+ANS. [SEP19_RDBMS6@NDAUNIX home]$ ls
+
+
+6. Using the long listing format to display the files in your directory.
+ANS. [SEP19_RDBMS6@NDAUNIX home]$ ls -al
+
+
+7. List the files beginning with chap followed by any number or any lower case alphabet.
+  (Example, it should display all files whose names are like chap1, chap2, chap3 ……., 
+   chapa,ahapb,chapc,……..)
+
+ANS. [SEP19_RDBMS6@NDAUNIX swati]$ ls |grep 'c[a-z]\+[0-9a-z]\+.[^A-Z].*'
+
+     capch.txt
+     chap1
+     chap2.txt
+     chap3.txt
+     chap4.txt
+     chap5.txt
+     chapab
+
+8. Give appropriate command to create a directory called C_prog under your home 
+   directory. (Note: Check the directory using ls).
+
+ANS.  [SEP19_RDBMS6@NDAUNIX home]$ mkdir C_prog
+
+
+9. Create the following directories under your home directory.(Note: Check using ls)
+newdir
+newdirectory
+
+ANS.  [SEP19_RDBMS6@NDAUNIX home]$ mkdir newdir
+      [SEP19_RDBMS6@NDAUNIX home]$ mkdir newdirectory
+
+
+10. List the names of all the files, including the contents of the sub directories under
+    your home directory.
+
+ANS.  [SEP19_RDBMS6@NDAUNIX home]$ ls -R
+
+11. Remove the directory called newdirectory from your working directory.
+
+ANS.   [SEP19_RDBMS6@NDAUNIX home]$ rmdir newdirectory
+
+
+12. Create a directory called temp under your home directory.
+
+ANS.   [SEP19_RDBMS6@NDAUNIX home]$ mkdir temp
+
+
+13. Remove the directory called newdir under your home directory and verify the above 
+    with the help of the directory listing command.
+
+ANS.  [SEP19_RDBMS6@NDAUNIX home]$ rmdir newdir
+      [SEP19_RDBMS6@NDAUNIX home]$ ls
+
+14. Create another directory directorynew under the temp directory.
+
+ANS.  [SEP19_RDBMS6@NDAUNIX home]$ cd temp
+      [SEP19_RDBMS6@NDAUNIX temp]$ mkdir directorynew
+
+15. Change the directory to your home directory.
+
+ANS.  [SEP19_RDBMS6@NDAUNIX directorynew] cd ~
+
+16. From your home directory, change the directory to directorynew using relative and 
+    absolute path.
+
+ANS.   [SEP19_RDBMS6@NDAUNIX home]$ cd temp/directorynew  => RELATIVE PATH
+       [SEP19_RDBMS6@NDAUNIX home]$ cd /home/SEP19_RDBMS6/temp/directorynew  => ABSOLUTE PATH
+
+
+17. Remove the directory called C_prog, which is in your home directory.
+
+ANS.   [SEP19_RDBMS6@NDAUNIX home]$ rmdir C_prog
+
+
+18. Change to the directory /etc and display the files present in it.
+
+ANS.  [SEP19_RDBMS6@NDAUNIX home]$ cd ..
+      [SEP19_RDBMS6@NDAUNIX /]$ cd etc
+      [SEP19_RDBMS6@NDAUNIX etc]$ ls
+
+19. List the names of all the files that begin with a dot in the /usr/bin directory.
+
+ANS.  [SEP19_RDBMS6@NDAUNIX bin]$ ls \.[a-z0-9]*
+      .fipscheck.hmac  .ssh.hmac
+
+20. Create a file first.unix with the following contents.
+     Hi! Good Morning everybody.
+     Welcome to the First exercise on UNIX.
+     Hope you enjoy doing the assignments.
+
+ANS.   [SEP19_RDBMS6@NDAUNIX ~]$ cat > first.unix
+        Hi! Good Morning everybody.
+        Welcome to the First exercise on UNIX.
+        Hope you enjoy doing the assignments.
+        
+        Ctrl + d to EXIT.
+
+21. Copy the file first.unix in your home directory to first.unics.
+    (Note: checked using ls, first.unix file also should exist along with first.unics)
+
+ANS.  [SEP19_RDBMS6@NDAUNIX home]$ cd ~
+      [SEP19_RDBMS6@NDAUNIX ~]$ touch first.unix
+      [SEP19_RDBMS6@NDAUNIX ~]$ nano first.unix
+      [SEP19_RDBMS6@NDAUNIX ~]$ cp first.unix first.unics
+      [SEP19_RDBMS6@NDAUNIX ~]$ cat first.unics
+      Hi! Good Morning everybody.
+      Welcome to the First exercise on UNIX.
+      Hope you enjoy doing the assignments.
+
+22. List the contents of first.unix and first.unics with a single command.
+
+ANS.  [SEP19_RDBMS6@NDAUNIX ~]$ cat first.unix first.unics
+      Hi! Good Morning everybody.
+      Welcome to the First exercise on UNIX.
+      Hope you enjoy doing the assignments.
+      Hi! Good Morning everybody.
+      Welcome to the First exercise on UNIX.
+      Hope you enjoy doing the assignments.
+
+
+23. Create a new directory under the temp directory.
+
+ANS.  [SEP19_RDBMS6@NDAUNIX ~]$ cd temp
+      [SEP19_RDBMS6@NDAUNIX temp]$ mkdir new
+
+
+24. From your home directory, copy all the files to the directory created under the 
+    temp sub directory.
+
+ANS.  [SEP19_RDBMS6@NDAUNIX ~]$ mv *.* temp/new
+
+
+25. Move the file first.unix to the directory temp as second.unix
+
+ANS.  [SEP19_RDBMS6@NDAUNIX ~]$ cd temp
+      [SEP19_RDBMS6@NDAUNIX temp]$ cat > second.unix
+      [SEP19_RDBMS6@NDAUNIX temp]$ cd ~
+      [SEP19_RDBMS6@NDAUNIX ~]$ mv first.unix temp/second.unix
+
+
+26. Remove the file called first.unics from the home directory.
+
+ANS. [SEP19_RDBMS6@NDAUNIX ~]$ rm first.unics
+
+27. Change your directory to temp and issue the command rm *. What do you observe?
+
+ANS.  [SEP19_RDBMS6@NDAUNIX ~]$ cd temp
+      [SEP19_RDBMS6@NDAUNIX temp]$ rm *
+      rm: cannot remove `directorynew': Is a directory
+      rm: cannot remove `new': Is a directory
+
+28. Move all files whose names end with a, c and o to the HOME directory.
+
+ANS.  [SEP19_RDBMS6@NDAUNIX temp]$ mv *a.* *c.* *o.* ~
+
+29. Copy all files that end with a ‘UNIX’ to the temp directory.
+
+ANS.   [SEP19_RDBMS6@NDAUNIX ~]$ mv *.unix temp
+
+30. Issuing a single command, remove all the files from the directory temp and the 
+    directory itself.
+
+ANS.    [SEP19_RDBMS6@NDAUNIX ~]$ rm -R temp
+
+31. Try commands cp and mv with invalid number of arguments and note the results.
+
+ANS.    [SEP19_RDBMS6@NDAUNIX ~]$ cp swa.txt
+        cp: missing destination file operand after `swa.txt'
+        Try `cp --help' for more information.
+        [SEP19_RDBMS6@NDAUNIX ~]$ mv swo.txt
+        mv: missing destination file operand after `swo.txt'
+        Try `mv --help' for more information.
+32. Use the cat command to create a file friends, with the following data:
+      
+      Madhu 6966456 09/07/68
+      Jamil 2345215 08/09/67
+      Ajay 5546785 01/04/66
+      Mano 7820022 09/07/68
+      David 8281292 09/09/60
+      Simmi 7864563 12/12/70
+      Navin 2224311 30/05/68
+      The fields should be separated by a tab.
+
+ANS.   [SEP19_RDBMS6@NDAUNIX ~]$ cat > friends.txt
+        Madhu 6966456 09/07/68
+        Jamil 2345215 08/09/67
+        Ajay 5546785 01/04/66
+        Mano 7820022 09/07/68
+        David 8281292 09/09/60
+        Simmi 7864563 12/12/70
+        Navin 2224311 30/05/68
+
+
+33. Display contents of the file friends.
+
+ANS. [SEP19_RDBMS6@NDAUNIX ~]$ cat friends.txt
+
+
+34. Copy contents of friends to newfriend without using the cp command.
+
+ANS. [SEP19_RDBMS6@NDAUNIX ~]$ cat friends.txt > newfriend.txt
+
+
+35. Display contents of the file friends and newfriends in a single command.
+
+ANS.[SEP19_RDBMS6@NDAUNIX ~]$ cat friends.txt newfriend.txt
+
+
+36. Find all users currently working on the system and store the output in a file named
+    as users.
+
+ANS.  [SEP19_RDBMS6@NDAUNIX ~]$ who >users.txt
+
+
+37. Append contents of friends file to the file, users.
+
+ANS. [SEP19_RDBMS6@NDAUNIX ~]$ cat friends.txt >>users.txt
+
+
+38. Display current system date and time and record your observations. How is the time
+    displayed?
+
+ANS.[SEP19_RDBMS6@NDAUNIX ~]$ date
+    Tue Oct 16 10:52:46 IST 2018
+
+39. Display calendar for the month and year of your birth.
+
+ANS. [SEP19_RDBMS6@NDAUNIX ~]$ cal 10 1996
+              October 1996
+          
+          Su Mo Tu We Th Fr Sa
+                1  2  3  4  5
+          6  7  8  9 10 11 12
+          13 14 15 16 17 18 19
+          20 21 22 23 24 25 26
+          27 28 29 30 31
+
+
+
+40.      Try following commands and record your observations.
+         date “+ %”
+         date “+%m”
+         date “+%D”
+         
+
+
+ANS.          [SEP19_RDBMS6@NDAUNIX ~]$ date "+%"
+              %
+              [SEP19_RDBMS6@NDAUNIX ~]$ date "+%m"
+              10
+              [SEP19_RDBMS6@NDAUNIX ~]$ date "+%D"
+              10/16/18
+              [SEP19_RDBMS6@NDAUNIX ~]$ date "+%/%Training Activity"
+              %/10:57:47raining Activity
+              [SEP19_RDBMS6@NDAUNIX ~]$ date "+%Training Activity"
+              10:58:18raining Activity
+              [SEP19_RDBMS6@NDAUNIX ~]$ date "+%r"
+              10:58:44 AM
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

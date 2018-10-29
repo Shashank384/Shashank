@@ -1,0 +1,41 @@
+                                  LAB 6
+
+
+1. 
+
+
+a)   ctrl+B
+
+b)   ctrl+F
+
+c)   esc b
+
+
+d)   ctrl+e
+
+e)    ctrl+K
+
+
+f)    ctrl+u
+
+
+2.    <TAB>
+
+
+3. history
+
+4.  [SEP19_RDBMS6@NDAUNIX ~]$ history | grep 'ls'
+
+
+5. !!
+
+
+6. [SEP19_RDBMS6@NDAUNIX ~]$ !3
+date
+
+
+
+7. [SEP19_RDBMS6@NDAUNIX ~]$ echo $SHELL
+/bin/bash
+
+    

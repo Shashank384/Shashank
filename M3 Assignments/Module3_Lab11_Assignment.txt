@@ -1,0 +1,86 @@
+                                  Lab 11 . SED Commands
+
+
+Q1.a)
+
+    [SEP19_RDBMS6@NDAUNIX ~]$ sed -n '2,$p'|fgrep 'Pune' employee.dat
+    Albert 32342 GRIT Pune
+    Richard 23232 ACS Pune
+
+
+   b)
+
+   [SEP19_RDBMS6@NDAUNIX ~]$ sed '6,$d' employee.dat
+   James 76382 PACE Chennai
+   John 34228 GRIT Hyderabad
+   Peter 22321 GE Bangalore
+   Albert 32342 GRIT Pune
+   Mathew 23222 PACE Mumbai
+
+
+  c)
+
+     [SEP19_RDBMS6@NDAUNIX ~]$ sed 's/'Pune'/'Chennai'/g' employee.dat
+     James 76382 PACE Chennai
+     John 34228 GRIT Hyderabad
+     Peter 22321 GE Bangalore
+     Albert 32342 GRIT Chennai
+     Mathew 23222 PACE Mumbai
+     Richard 23232 ACS Chennai
+
+
+  d)
+
+    [SEP19_RDBMS6@NDAUNIX ~]$ sed -e 's/'e'/'UNIX'/g' employee.dat
+    JamUNIXs 76382 PACE ChUNIXnnai
+    John 34228 GRIT HydUNIXrabad
+    PUNIXtUNIXr 22321 GE BangalorUNIX
+    AlbUNIXrt 32342 GRIT PunUNIX
+    MathUNIXw 23222 PACE Mumbai
+    Richard 23232 ACS PunUNIX
+
+  e)
+    
+
+    [SEP19_RDBMS6@NDAUNIX ~]$ vi employee.dat
+    [SEP19_RDBMS6@NDAUNIX ~]$ cat employee.dat
+
+
+    James 76382 PACE Chennai
+    John 34228 GRIT Hyderabad
+    Peter 22321 GE Bangalore
+    Albert 32342 GRIT Pune
+    Mathew 23222 PACE Mumbai
+    Richard 23232 ACS Pune
+
+    [SEP19_RDBMS6@NDAUNIX ~]$ sed '/^$/d' employee.dat
+    James 76382 PACE Chennai
+    John 34228 GRIT Hyderabad
+    Peter 22321 GE Bangalore
+    Albert 32342 GRIT Pune
+    Mathew 23222 PACE Mumbai
+    Richard 23232 ACS Pune
+
+ 
+   f)
+     [SEP19_RDBMS6@NDAUNIX ~]$ sed '3,5d' employee.dat
+     James 76382 PACE Chennai
+     John 34228 GRIT Hyderabad
+     Richard 23232 ACS Pune
+
+
+
+Q2.
+   
+    [SEP19_RDBMS6@NDAUNIX ~]$ sed '/PACE/!d' employee.dat
+    James 76382 PACE Chennai
+    Mathew 23222 PACE Mumbai
+    [SEP19_RDBMS6@NDAUNIX ~]$ sed '/PACE/!d' employee.dat>PACE.dat
+    [SEP19_RDBMS6@NDAUNIX ~]$ cat PACE.dat
+    James 76382 PACE Chennai
+    Mathew 23222 PACE Mumbai
+
+
+  
+   
+

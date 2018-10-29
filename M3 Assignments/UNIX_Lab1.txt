@@ -1,0 +1,14 @@
+LAB 1. Connecting to the UNIX Server
+
+1.1: Connecting to the Unix Server 
+Login as: SEP19_RDBMS15
+SEP19_RDBMS15@10.51.103.212's password: 
+
+1.2: Logging out of the system 
+	
+	[SEP19_RDBMS15@NDAUNIX ~]$ EXIT
+
+1.3: Change your password 
+
+	[SEP19_RDBMS15@NDAUNIX ~]$ passwd
+

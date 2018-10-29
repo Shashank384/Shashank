@@ -1,0 +1,103 @@
+                                       LAB 7
+
+
+
+7.1  
+
+
+
+1.  [SEP19_RDBMS6@NDAUNIX ~]$ chmod u=-r demofile.txt
+
+    [SEP19_RDBMS6@NDAUNIX ~]$ cat demofile.txt
+    cat: demofile.txt: Permission denied
+
+
+2. [SEP19_RDBMS6@NDAUNIX ~]$ chmod u=-w demofile.txt
+
+"demofile.txt" [Permission Denied]  
+
+
+
+3.  [SEP19_RDBMS6@NDAUNIX ~]$ chmod u=+rw demofile.txt
+    [SEP19_RDBMS6@NDAUNIX ~]$ ls -l demofile.txt
+    -rw-rw-r-- 1 SEP19_RDBMS6 SEP19_RDBMS6 18 Oct 16 15:27 demofile.txt
+
+
+4.   [SEP19_RDBMS6@NDAUNIX ~]$ chmod og=-wx demofile.txt
+     [SEP19_RDBMS6@NDAUNIX ~]$ ls -l demofile.txt
+     -rw------- 1 SEP19_RDBMS6 SEP19_RDBMS6 10 Oct 16 15:27 demofile.txt
+
+
+5. [SEP19_RDBMS6@NDAUNIX ~]$ chmod 524 demofile.txt
+   [SEP19_RDBMS6@NDAUNIX ~]$ ls -l demofile.txt
+   -r-x-w-r-- 1 SEP19_RDBMS6 SEP19_RDBMS6 18 Oct 16 15:27 demofile.txt
+
+
+
+6. [SEP19_RDBMS6@NDAUNIX ~]$ chmod a=+r demofile.txt
+[SEP19_RDBMS6@NDAUNIX ~]$ ls -l demofile.txt
+-r--r--r-- 1 SEP19_RDBMS6 SEP19_RDBMS6 6 Oct 16 15:27 demofile.txt
+
+
+7. [SEP19_RDBMS6@NDAUNIX ~]$ chmod 752 demofile.txt
+  [SEP19_RDBMS6@NDAUNIX ~]$ ls -l demofile.txt
+   -rwxr-x-w- 1 SEP19_RDBMS6 SEP19_RDBMS6 6 Oct 16 15:27 demofile.txt
+
+
+8.  [SEP19_RDBMS6@NDAUNIX ~]$ chmod u=+rwx chap1.txt
+[SEP19_RDBMS6@NDAUNIX ~]$ ls -l chap1.txt
+-rwxrw-r-- 1 SEP19_RDBMS6 SEP19_RDBMS6 16 Oct 15 16:34 chap1.txt
+
+
+9.  [SEP19_RDBMS6@NDAUNIX ~]$ chmod a=+rwx add.c
+[SEP19_RDBMS6@NDAUNIX ~]$ ls -l add.c
+-rwxrwxrwx 1 SEP19_RDBMS6 SEP19_RDBMS6 0 Oct 16 16:06 add.c
+
+
+10.  [SEP19_RDBMS6@NDAUNIX ~]$ chmod a=-x add.c
+[SEP19_RDBMS6@NDAUNIX ~]$ ls -l aa.c
+-rw-rw-r-- 1 SEP19_RDBMS6 SEP19_RDBMS6 0 Oct 16 16:08 aa.c
+[SEP19_RDBMS6@NDAUNIX ~]$
+
+
+11.  [SEP19_RDBMS6@NDAUNIX ~]$ chmod u+x a.c kk.c nato myfile
+     [SEP19_RDBMS6@NDAUNIX ~]$ ls -l a.c kk.c nato myfile
+     -rwxrw-r-- 1 SEP19_RDBMS6 SEP19_RDBMS6 0 Oct 16 16:11 a.c
+     -rwxrw-r-- 1 SEP19_RDBMS6 SEP19_RDBMS6 0 Oct 16 16:11 kk.c
+     -rwxrw-r-- 1 SEP19_RDBMS6 SEP19_RDBMS6 0 Oct 16 16:11 myfile
+     -rwxrw-r-- 1 SEP19_RDBMS6 SEP19_RDBMS6 0 Oct 16 16:11 nato
+
+
+
+
+ 
+
+
+7.2 
+
+
+[SEP19_RDBMS6@NDAUNIX ~]$ mkdir demo
+[SEP19_RDBMS6@NDAUNIX ~]$ cp /etc/passwd demo
+
+
+1.  [SEP19_RDBMS6@NDAUNIX ~]$ ls demo
+    passwd
+
+
+2.  [SEP19_RDBMS6@NDAUNIX ~]$ chmod u=-r demo
+[SEP19_RDBMS6@NDAUNIX ~]$ ls -l demo
+ls: cannot open directory demo: Permission denied
+
+
+
+3.  [SEP19_RDBMS6@NDAUNIX ~]$ chmod u=-w demo
+[SEP19_RDBMS6@NDAUNIX ~]$ cp /etc/profile demo
+cp: cannot stat `demo/profile': Permission denied
+
+
+4.  [SEP19_RDBMS6@NDAUNIX ~]$ rm demo/passwd
+
+
+5.  [SEP19_RDBMS6@NDAUNIX ~]$ chmod a=-x demo
+[SEP19_RDBMS6@NDAUNIX ~]$ cd demo
+-bash: cd: demo: Permission denied

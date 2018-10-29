@@ -1,0 +1,91 @@
+Q1.
+   [SEP19_RDBMS6@NDAUNIX ~]$ ps -u
+    Warning: bad syntax, perhaps a bogus '-'? See /usr/share/doc/procps-3.2.8/FAQ
+    USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+    1974     45229  0.0  0.0 108340  1812 pts/20   Ss   11:39   0:00 -bash
+    1974     45273  0.0  0.0 110240  1116 pts/20   R+   11:40   0:00 ps -u
+
+
+Q2.
+   [SEP19_RDBMS6@NDAUNIX ~]$ ps -e
+
+
+Q3.
+   [SEP19_RDBMS6@NDAUNIX ~]$ sleep 30&
+   [1] 45670
+   [SEP19_RDBMS6@NDAUNIX ~]$ ps 45670
+   PID  TTY      STAT   TIME COMMAND
+  45670 pts/20   S      0:00 sleep 30
+
+
+Q4.
+   [SEP19_RDBMS6@NDAUNIX swati]$ sort -o demofile6.txt&
+   [1] 45792
+
+
+Q5.
+   [SEP19_RDBMS6@NDAUNIX swati]$ jobs
+   [1]+  Stopped                 sort -o demofile6.txt
+
+`
+
+Q6.
+   [SEP19_RDBMS6@NDAUNIX swati]$ sort -o demofile6.txt&
+   [2] 46089
+   [SEP19_RDBMS6@NDAUNIX swati]$ grep "octo" demofile6.txt&
+   [3] 46118
+   [SEP19_RDBMS6@NDAUNIX swati]$ panda
+   [3]   Done                    grep panda demofile6.txt
+   [SEP19_RDBMS6@NDAUNIX swati]$ fg %1
+   sort -o demofile6.txt
+
+Q7.
+   [SEP19_RDBMS6@NDAUNIX swati]$ sleep 100&
+   [3] 48885
+   [SEP19_RDBMS6@NDAUNIX swati]$ jobs
+   [2]+  Stopped                 sort -o demofile6.txt
+   [3]-  Running                 sleep 100 &
+
+
+Q8.
+   [SEP19_RDBMS6@NDAUNIX swati]$ %
+   sort -o demofile6.txt
+
+
+
+Q9.
+   [SEP19_RDBMS6@NDAUNIX swati]$ sleep 100&
+   [1] 48923
+   [SEP19_RDBMS6@NDAUNIX swati]$ ps 48923
+   PID TTY      STAT   TIME COMMAND
+   48923 pts/20   S      0:00 sleep 100
+
+
+Q10.
+    [SEP19_RDBMS6@NDAUNIX ~]$ kill $!
+    [1]+  Terminated              sleep 100
+
+
+Q11.
+     [SEP19_RDBMS6@NDAUNIX ~]$ ps
+     PID TTY          TIME CMD
+    45229 pts/20   00:00:00 bash
+    49180 pts/20   00:00:00 ps
+    [SEP19_RDBMS6@NDAUNIX ~]$ kill -9 45229
+
+
+Q12.
+    nice ls
+
+Q13.
+    crontab -e
+    * 1 * * * date /dev/null/2>&1
+
+
+
+
+
+
+   
+
+

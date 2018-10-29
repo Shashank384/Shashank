@@ -1,0 +1,596 @@
+                            LAB14
+
+
+14.1
+
+
+1.[SEP19_RDBMS18@NDAUNIX ~]$ PS1="[UNIX ~]$"
+[UNIX ~]$
+
+
+
+2.   PS1="[MYNAME ~]$"
+pwd
+
+3.  [SEP19_RDBMS18@NDAUNIX ~]$ printenv
+
+
+
+
+6.
+
+[SEP19_RDBMS18@NDAUNIX ~]$ sh ques6.sh FT_BI_V4_USER16
+program ques6.sh
+logged in
+
+<<<<<<<Script>>>>>
+
+[SEP19_RDBMS18@NDAUNIX ~]$ cat ques6.sh
+echo program $0
+var1=`who | cut -d " " -f1 | grep $1`
+if [ $var1 == $1 ]
+then
+echo "logged in"
+else
+echo "not logged in"
+fi
+
+
+
+7.
+
+
+[SEP19_RDBMS18@NDAUNIX ~]$ sh filecheck.sh
+Enter the file name:
+chap1.txt
+Welcome.
+
+
+<<<<<<<Script>>>>>
+
+[SEP19_RDBMS18@NDAUNIX ~]$ cat filecheck.sh
+echo "Enter the file name:"
+read file
+if [ -s $file ]
+then
+echo `cat $file`
+else
+echo "File nahi h"
+fi
+
+
+
+8.
+
+[SEP19_RDBMS18@NDAUNIX ~]$ sh filecheck.sh chap1.txt
+File exists!
+-rwxrwxrwx 1 SEP19_RDBMS18 SEP19_RDBMS18 16 Oct 15 16:34 chap1.txt
+
+
+<<<<<<<Script>>>>>>>>
+
+
+[SEP19_RDBMS18@NDAUNIX ~]$ cat filecheck.sh
+
+if [ -s $1 ]
+then
+echo "File exists!"; ls -l $1; 
+
+else
+echo "File Doesn't Exists..."
+fi
+
+
+9.[SEP19_RDBMS18@NDAUNIX ~]$ sh ques9.sh 10 20 30
+30 is Greatest
+
+<<<<<<<Script>>>>>>>>
+
+[SEP19_RDBMS18@NDAUNIX ~]$ cat ques9.sh
+if [ $1 -gt $2 -a $1 -gt $3 ]
+then
+echo "$1 is Greatest"
+elif [ $2 -gt $1 -a $2 -gt $3 ]
+then
+echo "$2 is Greatest"
+else
+echo "$3 is Greatest"
+fi
+
+
+10.[SEP19_RDBMS18@NDAUNIX ~]$ sh ques10.sh "Hi" chap1.txt
+program ques10.sh
+no. of args 2
+File Exists
+Hi Bha_Bhupesh.
+pattern Found
+[SEP19_RDBMS18@NDAUNIX ~]$ sh ques10.sh "shu" chap1.txt
+program ques10.sh
+no. of args 2
+File Exists
+not found
+
+<<<<<<<Script>>>>>>>>
+
+
+
+[SEP19_RDBMS18@NDAUNIX ~]$ cat ques10.sh
+
+echo program $0
+echo no. of args $#
+if [ -s $2 ]
+then
+echo "File Exists"
+grep "$1" $2
+if [  $? -eq 0 ]    # $? returns exit status of last command in form of 1 and 0. 
+then
+echo "pattern Found"
+else
+echo "not found"
+fi
+else
+echo "file doesn't exists"
+fi
+
+
+
+11.)
+[SEP19_RDBMS18@NDAUNIX ~]$ sh ques11.sh
+Menu
+a. Creating a file
+b.Creating a directory
+c.copying a file
+d. Moving a file
+Enter the choice
+
+
+<<<<<<<Script>>>>>>>>
+
+
+[SEP19_RDBMS18@NDAUNIX ~]$ cat ques11.sh
+echo "Menu";
+echo "a. Creating a file"
+echo "b.Creating a directory"
+echo "c.copying a file"
+echo "d. Moving a file"
+echo Enter the choice
+read input
+case $input in
+[aA])
+        echo Enter file name
+        read filename
+        if [ -f $filename ]
+        then
+                echo "Already Exists"
+        else
+                touch $filename
+        echo $filename created
+        fi
+        ;;
+[bB])
+        echo Enter directory name
+        read dirname
+        if [ -d $dirname ]
+        then
+                echo Already Exists
+        else
+                mkdir $dirname
+        echo $dirname created
+        fi
+        ;;
+[cC])
+         echo enter two file names
+        read f1
+        read f2
+        if [ -r $f1 ]
+                then
+                echo $f1 is readable
+        if [ -s $f2 ]
+                then
+                cat $f1 >> $f2
+                echo $f2 appended
+        else
+                cp $f1 $f2
+                echo $f2 created and copied from $f1
+        fi
+        else
+                echo $f1 does not exists or not readable
+        fi
+        ;;
+[dD])
+        echo Enter the file to be moved
+        read f3
+        echo Enter the destination
+        read f4
+        mv $f3 $f4
+        echo File Moved
+         ;;
+*) echo invalid option;;
+esac
+
+________________________________________________________________
+
+
+12.1))
+[SEP19_RDBMS17@NDAUNIX ~]$ cat yesno1.sh
+yesno()
+{
+echo "Enter your ans in y/n"
+read ans
+if [ $ans == 'y' -o $ans == 'Y' ]
+then
+ return 0
+else
+ return 1
+fi
+}
+echo "Are you going?"
+yesno
+a=$#
+echo "your answer is $a"
+
+
+
+12.2))))))))))
+
+
+[SEP19_RDBMS17@NDAUNIX ~]$ cat yesno2.sh
+yesno()
+{
+echo $ques
+read ans
+if [ $ans == 'y' -o $ans == 'Y' ]
+then
+ return 0
+else
+ return 1
+fi
+}
+echo "Enter your question:"
+read ques
+yesno "\${ques}"
+a=$?
+echo "your answer is $a"
+
+12.3).............
+
+[SEP19_RDBMS17@NDAUNIX ~]$ cat yesno3.sh
+yesno()
+{
+if [ -f $ques ]
+then
+echo "Do you want to delete the file $ques"
+read ans
+
+if [ $ans == 'y' -o $ans == 'Y' ]
+then
+ rm $ques
+ echo "File $ques is deleted"
+fi
+else
+echo "Do you want to delete the directory?"
+read ans
+if [ $ans == 'y' -o $ans == 'Y' ]
+then
+        rmdir $ques
+        echo "Directory $ques is deleted"
+fi
+fi
+}
+echo "Enter File name / Directory Name"
+read ques
+yesno "\${ques}"
+
+
+
+
+
+
+
+
+_________________________________________________________________
+13.
+
+[SEP19_RDBMS10@NDAUNIX ~]$ sh Log.sh
+ENTER FOUR USER NAMES
+SEP19_RDBMS10
+SEP19_RDBMS1
+uydgyg
+jchjsh
+SEP19_RDBMS10 logged in
+SEP19_RDBMS1 logged in
+uydgyg not logged in
+jchjsh not logged in
+
+
+
+<<<<<<<Script>>>>>>>>
+
+
+[SEP19_RDBMS10@NDAUNIX ~]$ cat Log.sh
+echo "ENTER FOUR USER NAMES"
+read n1
+read n2
+read n3
+read n4
+var1=`who | cut -d " " -f1 | grep $n1`
+if [ -z "$var1" ]
+then
+echo "$n1 not logged in"
+else
+echo "$n1 logged in"
+fi
+var2=`who | cut -d " " -f1 | grep $n2`
+if [ -z "$var2" ]
+then
+echo "$n2 not logged in"
+else
+echo "$n2 logged in"
+fi
+var3=`who | cut -d " " -f1 | grep $n3`
+if [ -z "$var3" ]
+then
+echo "$n3 not logged in"
+else
+echo "$n3 logged in"
+fi
+var4=`who | cut -d " " -f1 | grep $n4`
+if [ -z "$var4" ]
+then
+echo "$n4 not logged in"
+else
+echo "$n4 logged in"
+fi
+
+
+ -----------------------OR-----------------------------------USING ARRAY AND LOOP-----------------------
+
+[SEP19_RDBMS10@NDAUNIX ~]$ cat user.sh
+echo "ENTER FOUR USER NAMES"
+read n[0]
+read n[1]
+read n[2]
+read n[3]
+for((i=0;i<4;i++))
+do
+var=`who | cut -d " " -f1 | grep ${n[$i]}`
+if [ -z "$var" ]
+then
+echo ${n[$i]} "not logged in"
+else
+echo ${n[$i]} "logged in"
+fi
+done
+
+
+________________________________________________________________
+
+14. 	$ sh Name.sh
+   	Enter First Name: Kumar
+	Enter Last Name: Shubham
+	My name is Kumar Shubham
+
+
+<<<<<<<Script>>>>>>>>
+
+
+[SEP19_RDBMS10@NDAUNIX ~]$ cat Name.sh
+echo -e "Enter First Name: \c"
+read fname
+echo -e "Enter Last Name: \c"
+read lname
+echo "My name is" $fname $lname
+
+________________________________________________________________
+
+
+15.   -bash-4.1$ find -newermt "-24 hours" -ls
+		or
+         
+	$ find * -newermt "2018-10-24"
+
+			OR
+
+	$ find * -mtime -1 -ls 
+
+
+________________________________________________________________
+
+
+16.
+-bash-4.1$ find * -type f -ls
+
+_______________________________________________________________
+
+
+17.
+
+-bash-4.1$ cat paths.sh
+echo Enter two paths
+read p1
+read p2
+echo Files of two paths are:
+echo "File of $p1 \c"
+ls $p1|more
+echo "Files of $p2 \c"
+ls $p2|more
+
+
+________________________________________________________________
+18.
+
+[SEP19_RDBMS10@NDAUNIX ~]$ sh ps.sh
+THE PROCESS RUNNING IS: ps.sh
+THE PID OF ps.sh is: 57299
+
+<<<<<SCRIPT>>>>>>>>>>
+
+$ cat ps.sh
+echo "THE PROCESS RUNNING IS:" $0
+echo "THE PID OF $0 is:" $$
+
+________________________________________________________________
+
+
+19.)$ sh ques19.sh file1 file2 destinationfile.txt
+<<<<<<<<SCRIPT>>>>>>>>>>>
+-bash-4.1$ cat ques19.sh
+echo The File $1 and $2 are concatened
+echo The result of Concatenation is
+cat $1 $2 >> $3
+cat $3
+
+
+
+________________________________________________________________
+20.)
+	echo "1)Calendar of current month"
+	echo "2)Search a Pattern"
+	echo "3)Count no. of directories"
+	read n
+	case "$n" in
+	1) cal;;
+	2) echo "Enter the Pattern"
+	   read pat
+   	   grep $pat * -R;;
+	3) find */ -type d |wc -l;;
+	esac
+___
+
+_____________________________________________________________
+
+
+21.)
+$ cat date1.sh
+printDay()
+{
+ var=`date -d "$d" +"%A"`
+ day[0]=Sunday
+ day[1]=Monday
+ day[2]=Tuesday
+ day[3]=Wednesday
+ day[4]=Thursday
+ day[5]=Friday
+ day[6]=Saturday
+if [ $var == ${day[0]} ]
+then
+ echo Today is $var let us sleep
+elif [ $var == ${day[1]} ]
+then
+ echo "ohh no today is $var"
+elif [ $var == ${day[2]} ]
+then
+ echo "Today is $var Its ok"
+elif [ $var == ${day[3]} ]
+then
+ echo "Today is  $var lets go to KFC"
+elif [ $var == ${day[4]} ]
+then
+ echo "Today is $var 1 more day to work"
+elif [ $var == ${day[5]} ]
+then
+ echo "Today is $var Yeah Last working day"
+else
+ echo "$var $var kardi rehndi hai Kudi $var $var"
+fi
+}
+valDate()
+{
+ read d
+if [ -z `date "+%m/%d/%Y" -d "$d"` ]
+then
+ echo Enter date in format mm/dd/yyyy
+ valDate
+else
+ printDay
+fi
+}
+ echo Enter date in the format mm/dd/yyyy
+ valDate
+_________________________________________________________________
+
+22.)find *.lst -ls
+________________________________________________________________
+23.)
+<<<<<<<<<SCRIPT>>>>>>>>>>
+-bash-4.1$ cat cal.sh
+echo MENU ;
+echo "a)Add  b)Subtract  c)Division  d)Multiplication"
+echo Enter the choice
+read choice
+case $choice in
+[aA])echo Enter two numbers for Addition
+ read num1
+ read num2
+ echo "The sum is" $[num1+num2]
+ ;;
+[bB])
+ echo Enter two numbers for subtraction
+ read num1
+ read num2
+ echo "The Subtraction is " $[num1-num2];;
+[cC])echo Enter the two number for Division
+ read num1
+ read num2
+ echo "Result is"
+ echo "scale=2; $num1/$num2" |bc ;;
+[dD])echo Enter the two numbers for multiplication
+ read num1
+ read num2
+ echo "The multiplication is" $[num1*num2];;
+*) echo Invalid Option
+esac
+
+
+24)
+
+awk -F " " ' $3>30 {print $0}' "$1" > Pass.txt
+awk -F " " ' $3<30 {print $0}' "$1" > Fail.txt
+echo "No. of students Passed:"
+wc -l Pass.txt
+echo "No. of students Failed:"
+wc -l Fail.txt
+
+
+
+
+
+25)))
+
+
+<<<<<<<<<<<<<<File dob.txt>>>>>>>>>>>>>>>>>
+
+
+ramesh | 79 | A+ |09-10-2002
+suresh | 88 | A++ |10-10-2003
+rajat | 25 | C |11-10-2004
+suraj | 65 | A |12-10-2005
+manoj | 55 | B |10-21-2006
+rahul | 87 | A++ |11-22-2007
+manoj | 56 | B |12-30-2008
+suraj | 45 | B |01-31-2009
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<SCRIPT>>>>>>>>>>>>>>>>>>>>>>
+
+echo Enter the date in the format mm/dd/yyyy
+        read d
+        cut -d "|" -f4 dob.txt > dob2.txt
+n=`cat dob2.txt |wc -l`
+for ((i=1;i<=$n;i++))
+        do
+        rd=`sed -n "$i"p dob2.txt`
+        num1=$(date -d "$d" +%s)
+        num2=$(date -d "$rd" +%s)
+echo
+if [ $num1 -gt $num2 ]
+        then
+        echo $rd greater than $d
+else
+        continue;
+fi
+
+done
+
+
+
+
